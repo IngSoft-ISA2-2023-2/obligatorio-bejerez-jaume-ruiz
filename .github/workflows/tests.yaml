@@ -8,7 +8,7 @@ jobs:
   Job-DotNet-Push:
     runs-on: ubuntu-latest
     env:
-      PROJECT_TEST_PATH: 'Implementacion/Codigo/Backend/PharnaGo.Test/**.Test'
+      PROJECT_TEST_PATH: 'Implementacion/Codigo/Backend/PharnaGo.Test/**'
     steps:
          
       - name: Unit Tests 
