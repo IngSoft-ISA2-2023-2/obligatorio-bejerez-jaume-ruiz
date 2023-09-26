@@ -1,0 +1,15 @@
+name: Test Automation Actions DotNet
+on: 
+  push:
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  Job-DotNet-Push:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_TEST_PATH: 'Implementacion/Codigo/Backend/PharnaGo.Test/**.Test'
+    steps:
+         
+      - name: Unit Tests 
+        run: dotnet test ${{ env.PROJECT_TEST_PATH }}
