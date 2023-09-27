@@ -8,10 +8,26 @@ on:
 jobs:
   Job-DotNet-Push:
     runs-on: windows-latest
-    
+    env:
+      DOTNET_CORE_VERSION: 6.0.x
+      DOTNET_NOLOGO: true
+      BUILD_CONFIGURATION: Debug
+      PROJECT_PATH: 'Codigo\Backend\PharmaGo.WebApi'
     steps:
       - name: Checkout código
         uses: actions/checkout@v2
-      
+        
+      - name: Setup .NET Core SDK (${{ env.DOTNET_CORE_VERSION }})
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_CORE_VERSION }} 
+          
+      - name: Restore Packages
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
+
+      - name: Build - .NET Core ${{ env.DOTNET_CORE_VERSION }}
+        run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
+        working-directory: "${{ env.PROJECT_PATH }}"
+        
       - name: Unit Tests 
         run: dotnet test Implementacion/Codigo/Backend/PharnaGo.Test
