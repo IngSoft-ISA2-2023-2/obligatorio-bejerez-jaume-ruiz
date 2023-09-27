@@ -15,7 +15,7 @@ namespace PharmaGo.Domain.Entities
         public void ValidOrFail()
         {
             if (string.IsNullOrEmpty(Name) || Name.Length >= 50 || string.IsNullOrEmpty(Address)
-                    || Users == null || Drugs == null)
+                    || Users == null || Drugs == null || Name.Equals(" "))
             {
                 throw new InvalidResourceException("The Pharmacy is not correctly created.");
             }

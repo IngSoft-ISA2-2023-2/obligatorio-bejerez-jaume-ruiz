@@ -112,6 +112,14 @@ namespace PharmaGo.Test.BusinessLogic.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidResourceException))]
+        public void CreateBlankNamePharmacy()
+        {
+            pharmacy.Name = " ";
+            var pharmacyReturned = _pharmacyManager.Create(pharmacy);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidResourceException))]
         public void CreateLargeNamePharmacy()
         {
             pharmacy.Name = InvalidPharmacyName;
