@@ -1,3 +1,9 @@
 .customAlign{
     text-align: center;
 }
+
+.custom-error {
+    color: red;
+    font-size: 13px;
+  }
+  
