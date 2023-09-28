@@ -44,17 +44,21 @@ export class CreateRequestComponent implements OnInit {
   }
 
   addRequest(): void {
-    let exist: boolean = false;
-    for(let item of this.requests){
-      if (item.code === this.code){
-        item.quantity += this.quantity;
-        exist = true;
-        break;
+    if(this.quantity<1){
+      this.commonService.updateToastData("Quantity must be greater than 0", "danger", "Error");
+    }else{
+      let exist: boolean = false;
+      for(let item of this.requests){
+        if (item.code === this.code){
+          item.quantity += this.quantity;
+          exist = true;
+          break;
+        }
       }
-    }
-    if (!exist){
-      let req = new RequestDetailHeader(this.code, this.quantity);
-      this.requests.push(req);
+      if (!exist){
+        let req = new RequestDetailHeader(this.code, this.quantity);
+        this.requests.push(req);
+      }
     }
   }
 
