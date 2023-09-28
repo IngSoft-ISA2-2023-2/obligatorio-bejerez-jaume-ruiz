@@ -85,6 +85,8 @@ namespace PharmaGo.BusinessLogic
                 var drug = _drugRepository.GetOneByExpression(d => d.Code == item.Drug.Code && d.Pharmacy.Id == existEmployee.Pharmacy.Id);
                 if (drug == null) throw new InvalidResourceException("Stock request has invalid drug.");
 
+                if (item.Quantity < 1)
+                    throw new InvalidResourceException("Stock request has negative quantity.");
                 item.Drug = drug;
             }
 
