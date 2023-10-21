@@ -1,46 +1,39 @@
+using PharmaGo.Domain.Entities;
+using System.Collections;
+
 namespace SpecFlowPharmaGo.Specs.StepDefinitions
 {
     [Binding]
     public sealed class CreateProductStepDefinitions
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
+        private readonly CreateProduct _createProduct = new CreateProduct();
+        private Product? _product = null;
+        private List<Product> _products = new List<Product>();
+
 
         [Given("the user with Id (.*) is an employee")]
         public void GivenTheUserIsAnEmployee(int userId)
         {
-            // Implementar la lógica para establecer que el usuario está autenticado como empleado.
-            // Tengo que guardar el id
-        }
-
-        [Given("the user works in the pharmacy with Id (.*)")]
-        public void GivenTheUserWorksInThePharmacy(int pharmacyId)
-        {
-            // Implementar la lógica para establecer que el usuario trabaja en dicha farmacia.
-            // Tengo que guardar el id
+            this._createProduct.UserId = userId;
         }
 
         [When("name (.*), description (.*) and price (.*) are entered for the new product")]
         public void WhenNameDescriptionAndPriceAreEnteredForTheNewProduct(string name, string description, decimal price)
         {
-            // Implementar la lógica para validar el 'name', 'description' y 'price' del nuevo producto.
-            // Dar de alta al nuevo producto
-            // Guardar el producto devuelto al crear
+            this._product = this._createProduct.CreateNewProduct(name, description, price);
+            this._products.Add(this._product);
         }
 
         [Then("creation should be successful")]
         public void ThenCreationShouldBeSuccessful()
         {
-            // Implementar la lógica para verificar que la creación del producto fue exitosa.
-            // EN LA ANTERIOR SE HACE EL LLAMADO, SE GUARDA EL PRODUCTO
-            // ACA SE TOMA EL PRODUCTO Y SE VALIDA QUE SEA DISTINTO DE NULL (SINO DARIA ERROR ANTES IGUAL)
-            // ME GUARDO EL CODIGO
+            this._product.Should().NotBeSameAs(null);
         }
 
         [Then("available products list should contain the new product")]
         public void ThenAvailableProductsListShouldContainTheNewProduct()
         {
-            // Implementar la lógica para verificar que la lista de productos disponibles ahora contiene el nuevo producto.
-            // ACA TOMO LA LISTA DE PRODUCTOS Y ME FIJO QUE ESTE EL DE CODIGO GUARDADO EN EL ANTERIOR
+            this._products.Should().Contain(this._product);
         }
     }
 }

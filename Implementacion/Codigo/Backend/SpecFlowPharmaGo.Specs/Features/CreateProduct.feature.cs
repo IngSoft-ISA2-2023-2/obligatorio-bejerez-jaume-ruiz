@@ -114,16 +114,13 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
- testRunner.And("the user works in the pharmacy with Id 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("name Shampoo Sedal 200 ml, description Dale vida a tu pelo con el nuevo shampoo S" +
+                        "edal and price 75.5 are entered for the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
- testRunner.When("name Shampoo Sedal 200 ml, description Dale vida a tu pelo con el nuevo shampoo S" +
-                        "edal and price 75 are entered for the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 8
  testRunner.Then("creation should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 9
+#line 8
  testRunner.And("available products list should contain the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
