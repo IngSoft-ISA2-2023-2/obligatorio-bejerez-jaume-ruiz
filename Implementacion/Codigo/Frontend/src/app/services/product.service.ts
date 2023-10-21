@@ -43,6 +43,25 @@ export class ProductService {
         );
       }
 
+    /** DELETE Delete deleteProduct */
+  deleteProduct(id: number): Observable<any> {
+    const url = `${this.url}/${id}`;
+    return this.http.delete<any>(url, {headers: this.getHttpHeaders() })
+    .pipe(
+      tap(),
+      catchError(this.handleError<any>('Delete Product'))
+    );
+  }
+
+      getProductByUser(): Observable<Product[]> {
+        const url = `${this.url}/user`;
+        return this.http.get<Product[]>(url, {headers: this.getHttpHeaders() })
+          .pipe(
+            tap(),
+            catchError(this.handleError<Product[]>('Get Products By User', []))
+          );
+      }
+
       private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
     
