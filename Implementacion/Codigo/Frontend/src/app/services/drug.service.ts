@@ -6,6 +6,8 @@ import { Drug, DrugRequest } from '../interfaces/drug';
 import { environment } from '../../environments/environment';
 import { CommonService } from './CommonService';
 import { StorageManager } from '../utils/storage-manager';
+import { Product, ProductRequest } from '../interfaces/product';
+
 
 @Injectable({ providedIn: 'root' })
 export class DrugService {
@@ -85,6 +87,15 @@ export class DrugService {
       catchError(this.handleError<Drug>('Create Drug'))
     );
   }
+
+    /** POST Create product */
+    createProduct(prod: ProductRequest): Observable<Product> {
+      return this.http.post<Product>(this.url, prod, {headers: this.getHttpHeaders() })
+      .pipe(
+        tap(),
+        catchError(this.handleError<Product>('Create Product'))
+      );
+    }
 
   /** DELETE Delete Drug */
   deleteDrug(id: number): Observable<any> {
