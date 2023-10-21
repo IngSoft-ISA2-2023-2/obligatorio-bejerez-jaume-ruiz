@@ -1,33 +1,28 @@
-name: Test Automation Actions DotNet
+name: .NET
 
-on: 
+on:
   push:
-    paths-ignore:
-      - '**/*.md'
+    branches: [ "main", "develop" ] 
+  pull_request:
+    branches: [ "main", "develop" ]
 
 jobs:
-  Job-DotNet-Push:
-    runs-on: windows-latest
-    env:
-      DOTNET_CORE_VERSION: 6.0.x
-      DOTNET_NOLOGO: true
-      BUILD_CONFIGURATION: Debug
-      PROJECT_PATH: 'Implementacion/Codigo\Backend\PharmaGo.WebApi'
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v2
-        
-      - name: Setup .NET Core SDK (${{ env.DOTNET_CORE_VERSION }})
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_CORE_VERSION }} 
-          
-      - name: Restore Packages
-        run: dotnet restore "${{ env.PROJECT_PATH }}"
+  build:
 
-      - name: Build - .NET Core ${{ env.DOTNET_CORE_VERSION }}
-        run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
-        working-directory: "${{ env.PROJECT_PATH }}"
-        
-      - name: Unit Tests 
-        run: dotnet test Implementacion/Codigo/Backend/PharnaGo.Test
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x 
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: Implementacion\Codigo\Backend\PharmaGo.WebApi
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: Implementacion\Codigo\Backend\PharmaGo.WebApi
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: Implementacion\Codigo\Backend\PharnaGo.Test
