@@ -101,7 +101,7 @@ export class CreateProductComponent implements OnInit {
           this.commonService.updateToastData(
             `Success creating "${prod.name}"`,
             'success',
-            'Drug created.'
+            'Product created.'
           );
         }
       });
