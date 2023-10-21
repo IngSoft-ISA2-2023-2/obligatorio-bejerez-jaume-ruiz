@@ -80,15 +80,26 @@ namespace SpecFlowPharmaGo.Specs.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Create Product Successfully")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Create Product Successfully")]
         [Xunit.TraitAttribute("FeatureTitle", "CreateProduct")]
         [Xunit.TraitAttribute("Description", "Create Product Successfully")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void CreateProductSuccessfully()
+        [Xunit.InlineDataAttribute("Shampoo Sedal 200 ml", "Dale vida a tu pelo con el nuevo shampoo Sedal", "75.5", new string[0])]
+        [Xunit.InlineDataAttribute("Loreal", "Shampu.", "20", new string[0])]
+        [Xunit.InlineDataAttribute("Jabon", "Jabon jabon", "30", new string[0])]
+        public virtual void CreateProductSuccessfully(string name, string description, string price, string[] exampleTags)
         {
-            string[] tagsOfScenario = new string[] {
+            string[] @__tags = new string[] {
                     "mytag"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("price", price);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Product Successfully", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
@@ -110,34 +121,43 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 6
  testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 6
- testRunner.When("name Shampoo Sedal 200 ml, description Dale vida a tu pelo con el nuevo shampoo S" +
-                        "edal and price 75.5 are entered for the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 7
- testRunner.Then("creation should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When(string.Format("name {0}, description {1} and price {2} are entered for the new product", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
+ testRunner.Then("creation should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 9
  testRunner.And("available products list should contain the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Required Fields are missing")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Required fields are missing")]
         [Xunit.TraitAttribute("FeatureTitle", "CreateProduct")]
-        [Xunit.TraitAttribute("Description", "Required Fields are missing")]
+        [Xunit.TraitAttribute("Description", "Required fields are missing")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void RequiredFieldsAreMissing()
+        [Xunit.InlineDataAttribute("", "desc", "75.5", new string[0])]
+        [Xunit.InlineDataAttribute("Loreal", "", "75.5", new string[0])]
+        public virtual void RequiredFieldsAreMissing(string name, string description, string price, string[] exampleTags)
         {
-            string[] tagsOfScenario = new string[] {
+            string[] @__tags = new string[] {
                     "mytag"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Required Fields are missing", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 11
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("price", price);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Required fields are missing", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -157,14 +177,175 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 12
+#line 20
  testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 13
- testRunner.When("only description Dale vida a tu pelo con el nuevo shampoo Sedal and price 75.5 ar" +
-                        "e entered for the new product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 14
+#line 22
+ testRunner.Then("creation is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Name has more than 30 characters")]
+        [Xunit.TraitAttribute("FeatureTitle", "CreateProduct")]
+        [Xunit.TraitAttribute("Description", "Name has more than 30 characters")]
+        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.InlineDataAttribute("nombre de producto de muchos caracteres", "desc", "75.5", new string[0])]
+        [Xunit.InlineDataAttribute("nombre de producto de caractere", "desc", "75.5", new string[0])]
+        [Xunit.InlineDataAttribute("nombre de producto de caracteres", "desc", "75.5", new string[0])]
+        public virtual void NameHasMoreThan30Characters(string name, string description, string price, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "mytag"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("price", price);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Name has more than 30 characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 31
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 33
+ testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 34
+ testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 35
+ testRunner.Then("creation is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Description has more than 70 characters")]
+        [Xunit.TraitAttribute("FeatureTitle", "CreateProduct")]
+        [Xunit.TraitAttribute("Description", "Description has more than 70 characters")]
+        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.InlineDataAttribute("Loreal", "DescripcionLargaDescripcionLargaDescripcionLargaDescripcionLargaAAAAAAA", "75.5", new string[0])]
+        [Xunit.InlineDataAttribute("Loreal", "DescripcionLarga DescripcionLarga DescripcionLargaDescripcionLargaAAAAAAsfdsnslfd" +
+            "A", "75.5", new string[0])]
+        public virtual void DescriptionHasMoreThan70Characters(string name, string description, string price, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "mytag"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("price", price);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Description has more than 70 characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 45
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 47
+ testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 48
+ testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 49
+ testRunner.Then("creation is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Price is Less than or Equal to Zero")]
+        [Xunit.TraitAttribute("FeatureTitle", "CreateProduct")]
+        [Xunit.TraitAttribute("Description", "Price is Less than or Equal to Zero")]
+        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.InlineDataAttribute("Loreal", "desc", "0", new string[0])]
+        [Xunit.InlineDataAttribute("Loreal", "desc", "-1", new string[0])]
+        [Xunit.InlineDataAttribute("Loreal", "desc", "-56465", new string[0])]
+        public virtual void PriceIsLessThanOrEqualToZero(string name, string description, string price, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "mytag"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("price", price);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Price is Less than or Equal to Zero", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 58
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 60
+ testRunner.Given("the user with Id 1 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 61
+ testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 62
  testRunner.Then("creation is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

@@ -39,17 +39,28 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             this._products.Should().Contain(this._product);
         }
 
-        [When(@"only description (.*) and price (.*) are entered for the new product")]
-        [ExpectedException(typeof(InvalidResourceException))]
-        public void WhenOnlyDescriptionDaleVidaATuPeloConElNuevoShampooSedalAndPriceAreEnteredForTheNewProduct(string description, decimal price)
-        {
-            this._product = this._createProduct.CreateNewProduct(null, description, price);
-        }
-
         [Then(@"creation is not successful")]
         public void ThenCreationIsNotSuccessful()
         {
             this._product.Should().BeNull();
+        }
+
+        [When("(.*), (.*) and (.*) are entered")]
+        [Obsolete]
+        public void WhenInvalidNameDescriptionAndPriceAreEnteredForTheNewProduct(string name, string description, decimal price)
+        {
+            string? exceptionMessage = null;
+            try
+            {
+                this._product = this._createProduct.CreateNewProduct(name, description, price);
+                this._products.Add(this._product);
+            }
+            catch (InvalidResourceException e)
+            {
+                exceptionMessage = e.Message;
+            }
+
+            exceptionMessage.Should().NotBeNull();
         }
 
     }

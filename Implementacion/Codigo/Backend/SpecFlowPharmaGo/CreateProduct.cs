@@ -11,18 +11,14 @@ namespace SpecFlowPharmaGo
         public Product CreateNewProduct(string name, string description, decimal price)
         {
             Product? product = null;
-            try
+            if (this.IsUserEmployee(this.UserId))
             {
-                if (this.IsUserEmployee(this.UserId))
+                if (this.AreFieldsValid(name, description, price))
                 {
-                    if (this.AreFieldsValid(name, description, price))
-                    {
-                        product = new Product(name, description, price);
-                        product.Code = this.GenerateProductCode();
-                    }
+                    product = new Product(name, description, price);
+                    product.Code = this.GenerateProductCode();
                 }
             }
-            catch (InvalidResourceException) { }
 
 
             return product;
@@ -50,9 +46,21 @@ namespace SpecFlowPharmaGo
 
         private bool AreFieldsValid(string name, string description, decimal price)
         {
-            if (name == null || description == null)
+            if (name == null || name == "" || description == null || description == "")
             {
                 throw new InvalidResourceException("Fields are required");
+            }
+            if (name.Length > 30)
+            {
+                throw new InvalidResourceException("Name can not have more than 30 characters");
+            }
+            if (description.Length > 70)
+            {
+                throw new InvalidResourceException("Description can not have more than 70 characters");
+            }
+            if (price <= 0)
+            {
+                throw new InvalidResourceException("Price must be greater than zero");
             }
             return true;
         }
