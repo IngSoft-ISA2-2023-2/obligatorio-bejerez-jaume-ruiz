@@ -9,6 +9,7 @@ import { Presentation } from '../../../interfaces/presentation';
 import { DrugService } from '../../../services/drug.service';
 import { ProductRequest } from '../../../interfaces/product';
 import { CommonService } from '../../../services/CommonService';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-create-product',
@@ -26,7 +27,7 @@ export class CreateProductComponent implements OnInit {
 
   constructor(
     private commonService: CommonService,
-    private drugService: DrugService,
+    private productService: ProductService,
     private unitMeasureService: UnitMeasureService,
     private presentationService: PresentationService,
     private fb: FormBuilder
@@ -91,7 +92,7 @@ export class CreateProductComponent implements OnInit {
     let price = this.price.value ? this.price.value : 0;
 
     let productRequest = new ProductRequest(name, description, price);
-        this.drugService.createProduct(productRequest).subscribe((prod) => {
+        this.productService.createProduct(productRequest).subscribe((prod) => {
         this.form.reset();
         this.setDefaultPresentation();
         this.setDefaultUnitMeasure();
