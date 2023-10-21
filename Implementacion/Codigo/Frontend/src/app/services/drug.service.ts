@@ -88,15 +88,6 @@ export class DrugService {
     );
   }
 
-    /** POST Create product */
-    createProduct(prod: ProductRequest): Observable<Product> {
-      return this.http.post<Product>(this.url, prod, {headers: this.getHttpHeaders() })
-      .pipe(
-        tap(),
-        catchError(this.handleError<Product>('Create Product'))
-      );
-    }
-
   /** DELETE Delete Drug */
   deleteDrug(id: number): Observable<any> {
     const url = `${this.url}/${id}`;
