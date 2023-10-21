@@ -1,30 +1,28 @@
+
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
-
 on:
   push:
     branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
-
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.x 
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: Codigo\Backend\PharmaGo.WebApi
+      working-directory: Implementacion\Codigo\Backend\PharmaGo.WebApi
     - name: Build
       run: dotnet build --no-restore
+      working-directory: Implementacion\Codigo\Backend\PharmaGo.WebApi
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: Codigo\Backend\PharnaGo.Test
+      working-directory: Implementacion\Codigo\Backend\PharnaGo.Test
+

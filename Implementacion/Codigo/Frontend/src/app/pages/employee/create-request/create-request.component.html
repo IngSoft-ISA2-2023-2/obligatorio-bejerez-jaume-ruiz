@@ -36,6 +36,7 @@
                         type="number"
                       />
                     </c-input-group>
+                    <span class="custom-error" *ngIf="quantity<1">Quantity must be greater than 0</span>
                   </c-col>
                   <c-col>
                     <button

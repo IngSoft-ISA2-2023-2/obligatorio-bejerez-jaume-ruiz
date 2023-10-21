@@ -22,9 +22,14 @@ export class CustomToastComponent implements OnInit {
         self.message = data.message;
         self.color = data.type;
         self.title = data.title;
+        setTimeout(function() {
+          self.visible = false;
+          self.commonService.updateToastData("","","");
+        }, 7000); 
       }
     });
   }
+
 
   ngOnInit(): void {
 

@@ -8,22 +8,22 @@ using PharmaGo.IDataAccess;
 
 namespace PharmaGo.Test.BusinessLogic.Test
 {
-	[TestClass]
-	public class StockManagerTest
-	{
-		private Mock<IRepository<StockRequest>> _stockRequestMock;
-        private Mock<IRepository<User>> _employeeMock;
-        private Mock<IRepository<Drug>> _drugMock;
-        private Mock<IRepository<Session>> _sessionMock;
-        private StockRequestManager _stockRequestManager;
-        private StockRequest _stockRequest;
+    [TestClass]
+    public class StockManagerTest
+    {
+        private Mock<IRepository<StockRequest>>? _stockRequestMock;
+        private Mock<IRepository<User>>? _employeeMock;
+        private Mock<IRepository<Drug>>? _drugMock;
+        private Mock<IRepository<Session>>? _sessionMock;
+        private StockRequestManager? _stockRequestManager;
+        private StockRequest? _stockRequest;
         private string token = "c80da9ed-1b41-4768-8e34-b728cae25d2f";
         private Session session = null;
         private User user = null;
 
         [TestInitialize]
-		public void SetUp()
-		{
+        public void SetUp()
+        {
             _stockRequestMock = new Mock<IRepository<StockRequest>>(MockBehavior.Strict);
             _employeeMock = new Mock<IRepository<User>>(MockBehavior.Strict);
             _drugMock = new Mock<IRepository<Drug>>(MockBehavior.Strict);
@@ -51,49 +51,49 @@ namespace PharmaGo.Test.BusinessLogic.Test
             user = new User { Id = 1, Email = "fernando@gmail.com", Password = "Asdfer234.." };
         }
 
-		[TestCleanup]
-		public void CleanUp()
-		{
-			_stockRequestMock.VerifyAll();
-		}
+        [TestCleanup]
+        public void CleanUp()
+        {
+            _stockRequestMock.VerifyAll();
+        }
 
-		[TestMethod]
+        [TestMethod]
         [ExpectedException(typeof(InvalidResourceException))]
         public void CreateStockRequest_WithNulEmployee_SouldReturnException()
-		{
+        {
             //Arrange
-            User user_ = null;
+            User? user_ = null;
             _sessionMock.Setup(session => session.GetOneByExpression(It.IsAny<Expression<Func<Session, bool>>>()))
                 .Returns(session);
             _employeeMock.Setup(d => d.GetOneDetailByExpression(It.IsAny<Expression<Func<User, bool>>>())).Returns(user_);
-            
-            var stockRequest = new StockRequest()
-			{
-				Id = 1,
-				Status = Domain.Enums.StockRequestStatus.Pending,
-				Details = new List<StockRequestDetail>()
-				{
-					new StockRequestDetail() { Id = 1, Drug = new Drug() { Id = 1, Code = "XF324" }, Quantity = 50 },
-					new StockRequestDetail() { Id = 2, Drug = new Drug() { Id = 2, Code = "RS546" }, Quantity = 25 }
-				},
-				RequestDate = DateTime.Now
-			};
 
-			//Act
-			_stockRequestManager.CreateStockRequest(stockRequest, token);
+            var stockRequest = new StockRequest()
+            {
+                Id = 1,
+                Status = Domain.Enums.StockRequestStatus.Pending,
+                Details = new List<StockRequestDetail>()
+                {
+                    new StockRequestDetail() { Id = 1, Drug = new Drug() { Id = 1, Code = "XF324" }, Quantity = 50 },
+                    new StockRequestDetail() { Id = 2, Drug = new Drug() { Id = 2, Code = "RS546" }, Quantity = 25 }
+                },
+                RequestDate = DateTime.Now
+            };
+
+            //Act
+            _stockRequestManager.CreateStockRequest(stockRequest, token);
         }
 
-		[TestMethod]
-		[ExpectedException(typeof(InvalidResourceException))]
-		public void CreateStockRequest_WithNullDetails_ShouldReturnException()
-		{
+        [TestMethod]
+        [ExpectedException(typeof(InvalidResourceException))]
+        public void CreateStockRequest_WithNullDetails_ShouldReturnException()
+        {
 
             //Arrange
             var stockRequest = new StockRequest()
             {
                 Id = 1,
                 Status = Domain.Enums.StockRequestStatus.Pending,
-				Employee = new User() { Id = 1, UserName = "jcastro" },
+                Employee = new User() { Id = 1, UserName = "jcastro" },
                 RequestDate = DateTime.Now
             };
 
@@ -124,7 +124,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         public void CreateStockRequest_WithInvalidEmployee_ShouldReturnException()
         {
             //Arrange
-            User user = null;
+            User? user = null;
             var stockRequest = new StockRequest()
             {
                 Id = 1,
@@ -144,7 +144,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         public void RejectStockRequest_WithInvalidStockRequest_ShouldReturnException()
         {
             //Arrange
-            StockRequest stockRequest = null;
+            StockRequest? stockRequest = null;
             var stockRequestId = 1;
             _stockRequestMock.Setup(m => m.GetOneByExpression(It.IsAny<Expression<Func<StockRequest, bool>>>())).Returns(stockRequest);
 
@@ -203,7 +203,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         public void ApproveStockRequest_WithInvalidStockRequest_ShouldReturnException()
         {
             //Arrange
-            StockRequest stockRequest = null;
+            StockRequest? stockRequest = null;
             var stockRequestId = 1;
             _stockRequestMock.Setup(m => m.GetOneByExpression(It.IsAny<Expression<Func<StockRequest, bool>>>())).Returns(stockRequest);
 
@@ -286,7 +286,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         public void CreateStockRequest_WithInvalidDrugs_ShouldReturnException()
         {
             //Arrange
-            Drug drug = null;
+            Drug? drug = null;
             User employee = new User() { Id = 1, UserName = "jcastro" };
             var stockRequest = new StockRequest()
             {
@@ -296,6 +296,34 @@ namespace PharmaGo.Test.BusinessLogic.Test
                 Details = new List<StockRequestDetail>()
                 {
                     new StockRequestDetail() { Id = 1, Drug = new Drug() { Id = 1, Code = "XF324" }, Quantity = 50 },
+                    new StockRequestDetail() { Id = 2, Drug = new Drug() { Id = 2, Code = "RS546" }, Quantity = 25 }
+                },
+                RequestDate = DateTime.Now
+            };
+
+            _employeeMock.Setup(u => u.GetOneDetailByExpression(It.IsAny<Expression<Func<User, bool>>>())).Returns(employee);
+            _drugMock.Setup(d => d.GetOneByExpression(It.IsAny<Expression<Func<Drug, bool>>>())).Returns(drug);
+            _sessionMock.Setup(d => d.GetOneByExpression(It.IsAny<Expression<Func<Session, bool>>>())).Returns(session);
+
+            //Act
+            var result = _stockRequestManager.CreateStockRequest(stockRequest, token);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidResourceException))]
+        public void CreateStockRequest_WithNegativeQuantity_ShouldReturnException()
+        {
+            //Arrange
+            Drug? drug = new Drug() { Id = 1, Code = "XF324" };
+            User employee = new User() { Id = 1, UserName = "jcastro" };
+            var stockRequest = new StockRequest()
+            {
+                Id = 1,
+                Status = Domain.Enums.StockRequestStatus.Rejected,
+                Employee = new User() { Id = 1, UserName = "jcastro" },
+                Details = new List<StockRequestDetail>()
+                {
+                    new StockRequestDetail() { Id = 1, Drug = new Drug() { Id = 1, Code = "XF324" }, Quantity = -50 },
                     new StockRequestDetail() { Id = 2, Drug = new Drug() { Id = 2, Code = "RS546" }, Quantity = 25 }
                 },
                 RequestDate = DateTime.Now
@@ -407,7 +435,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
                         }
                     }
              };
-            
+
             _sessionMock.Setup(session => session.GetOneByExpression(It.IsAny<Expression<Func<Session, bool>>>()))
                 .Returns(session);
 
@@ -427,12 +455,14 @@ namespace PharmaGo.Test.BusinessLogic.Test
             //Arrange
             var token = Guid.NewGuid().ToString();
             var session = new Session() { Id = 1, Token = new Guid(token), UserId = 1 };
-            var searchCriteria = new StockRequestSearchCriteria() { 
-                EmployeeId = session.UserId, 
-                Code = "XF324", 
-                Status = "Pending", 
-                FromDate = new DateTime(2022, 09, 10), 
-                ToDate = new DateTime(2022, 10, 20) };
+            var searchCriteria = new StockRequestSearchCriteria()
+            {
+                EmployeeId = session.UserId,
+                Code = "XF324",
+                Status = "Pending",
+                FromDate = new DateTime(2022, 09, 10),
+                ToDate = new DateTime(2022, 10, 20)
+            };
 
             var stockRequestList = new List<StockRequest>()
             {
@@ -690,7 +720,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
                 .Returns(stockRequest);
 
             _drugMock.Setup(d => d.GetOneByExpression(It.IsAny<Expression<Func<Drug, bool>>>()))
-                .Returns(new Drug() { Id = 1, Code = "XF324" , Quantity = 50 });
+                .Returns(new Drug() { Id = 1, Code = "XF324", Quantity = 50 });
             _drugMock.Setup(d => d.UpdateOne(It.IsAny<Drug>()));
 
             _stockRequestMock.Setup(s => s.UpdateOne(It.IsAny<StockRequest>()));
