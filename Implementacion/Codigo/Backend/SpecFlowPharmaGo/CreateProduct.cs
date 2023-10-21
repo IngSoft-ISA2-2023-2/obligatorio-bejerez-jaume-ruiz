@@ -11,14 +11,19 @@ namespace SpecFlowPharmaGo
         public Product CreateNewProduct(string name, string description, decimal price)
         {
             Product? product = null;
-            if (this.IsUserEmployee(this.UserId))
+            try
             {
-                if (this.AreFieldsValid(name, description, price))
+                if (this.IsUserEmployee(this.UserId))
                 {
-                    product = new Product(name, description, price);
-                    product.Code = this.GenerateProductCode();
+                    if (this.AreFieldsValid(name, description, price))
+                    {
+                        product = new Product(name, description, price);
+                        product.Code = this.GenerateProductCode();
+                    }
                 }
             }
+            catch (InvalidResourceException) { }
+
 
             return product;
         }
@@ -45,6 +50,10 @@ namespace SpecFlowPharmaGo
 
         private bool AreFieldsValid(string name, string description, decimal price)
         {
+            if (name == null || description == null)
+            {
+                throw new InvalidResourceException("Fields are required");
+            }
             return true;
         }
     }
