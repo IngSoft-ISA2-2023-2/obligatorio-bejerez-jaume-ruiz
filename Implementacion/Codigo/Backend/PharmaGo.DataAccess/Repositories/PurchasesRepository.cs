@@ -33,7 +33,7 @@ namespace PharmaGo.DataAccess.Repositories
         public override IEnumerable<Purchase> GetAllByExpression(Expression<Func<Purchase, bool>> expression)
         {
             return _context.Set<Purchase>()
-                .Include(x => x.details).ThenInclude(d => d.Drug)
+                .Include(x => x.details).ThenInclude(d => d.Item)
                 .Include(x => x.details).ThenInclude(p => p.Pharmacy)
                 .Where(expression).OrderBy(p => p.PurchaseDate);
         }
@@ -46,7 +46,7 @@ namespace PharmaGo.DataAccess.Repositories
         public override Purchase GetOneDetailByExpression(Expression<Func<Purchase, bool>> expression)
         {
             return _context.Set<Purchase>()
-                .Include(x => x.details).ThenInclude(d => d.Drug)
+                .Include(x => x.details).ThenInclude(d => d.Item)
                 .Include(x => x.details).ThenInclude(d => d.Pharmacy)
                 .FirstOrDefault(expression);
         }

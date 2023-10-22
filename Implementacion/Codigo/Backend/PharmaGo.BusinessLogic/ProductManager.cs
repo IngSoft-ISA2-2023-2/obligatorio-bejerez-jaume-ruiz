@@ -6,7 +6,7 @@ using PharmaGo.IDataAccess;
 
 namespace PharmaGo.BusinessLogic
 {
-    public class CreateProduct : IProductManager
+    public class ProductManager : IProductManager
     {
         public int UserId { get; set; }
         private readonly IRepository<Pharmacy> _pharmacyRepository;
@@ -15,7 +15,7 @@ namespace PharmaGo.BusinessLogic
         private readonly IRepository<Product> _productRepository;
         Random random = new Random();
 
-        public CreateProduct(IRepository<Pharmacy> pharmacyRepository,
+        public ProductManager(IRepository<Pharmacy> pharmacyRepository,
                            IRepository<Session> sessionRespository,
                            IRepository<User> userRespository,
                            IRepository<Product> productRepository)

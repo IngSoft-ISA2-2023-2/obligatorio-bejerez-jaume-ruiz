@@ -65,9 +65,9 @@ namespace PharmaGo.WebApi.Controllers
         public IActionResult CreatePurchase([FromBody] PurchaseModelRequest purchaseModel)
         {
             var converter = new PurchaseModelRequestToPurchaseConverter();
-            var purchase = _purchasesManager.CreatePurchase(converter.Convert(purchaseModel));
+            var purchase = this._purchasesManager.CreatePurchase(converter.Convert(purchaseModel));
             var purchaseModelResponse = new PurchaseModelResponse(purchase);
-            return Ok(purchaseModelResponse);
+            return this.Ok(purchaseModelResponse);
         }
 
         [HttpGet]
