@@ -18,7 +18,8 @@ namespace PharmaGo.WebApi.Models.In
                 Name = this.Name,
                 Description = this.Description,
                 Price = this.Price,
-                Pharmacy = new Pharmacy() { Name = this.PharmacyName }
+                Pharmacy = new Pharmacy() { Name = this.PharmacyName },
+                Deleted = false
             };
         }
     }
