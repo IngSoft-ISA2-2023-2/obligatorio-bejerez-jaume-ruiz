@@ -34,6 +34,25 @@ export class ProductService {
       .set('Authorization', token);
   }
 
+    /** GET product by id. Will 404 if id not found */
+    getDrug(id: number): Observable<Product> {
+      const url = `${this.url}/${id}`;
+      return this.http.get<Product>(url, {headers: this.getHttpHeaders() })
+      .pipe(
+        tap(),
+        catchError(this.handleError<Product>(`Get Drug id=${id}`))
+      );
+    }
+
+    /** GET product from the server */
+    getProducts(): Observable<Product[]> {
+        return this.http.get<Product[]>(this.url, {headers: this.getHttpHeaders() })
+          .pipe(
+            tap(),
+            catchError(this.handleError<Product[]>('Get Products', []))
+          );
+      }
+
       /** POST Create product */
       createProduct(prod: ProductRequest): Observable<Product> {
         return this.http.post<Product>(this.url, prod, {headers: this.getHttpHeaders() })

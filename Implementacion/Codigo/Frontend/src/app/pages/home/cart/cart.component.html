@@ -11,7 +11,7 @@
     <c-row [ngStyle]="{ width: '100%' }">
       <c-col>
         <h3 [ngStyle]="{ 'text-align': 'center' }">Cart</h3>
-        <div *ngIf="cart.length > 0">
+        <div *ngIf="cartD.length > 0">
           <table cTable hover [responsive]="true">
             <thead>
               <tr>
@@ -24,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let drug of cart; let indexOfelement = index">
+              <tr *ngFor="let drug of cartD; let indexOfelement = index">
                 <th scope="row">{{ indexOfelement + 1 }}</th>
                 <td>{{ drug.name }}</td>
                 <td>{{ drug.price | currency }}</td>
@@ -34,7 +34,43 @@
                   <button
                     title="Delete"
                     class="btn btn-outline-info"
-                    (click)="delete(indexOfelement)"
+                    (click)="deleteD(indexOfelement)"
+                  >
+                    <svg cIcon name="cil-trash"></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          <br>
+          <table cTable hover [responsive]="true">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Prod</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prod of cartP; let indexOfelement = index">
+                <th scope="row">{{ indexOfelement + 1 }}</th>
+                <td>{{ prod.name }}</td>
+                <td>{{ prod.price | currency }}</td>
+                <td>
+                  <button
+                    title="Delete"
+                    class="btn btn-outline-info"
+                    (click)="deleteD(indexOfelement)"
                   >
                     <svg cIcon name="cil-trash"></svg>
                   </button>
@@ -72,8 +108,8 @@
             </button>
           </div>
         </div>
-
-        <div *ngIf="cart.length === 0" class="alert alert-info" role="alert">
+      
+        <div *ngIf="cartD.length === 0" class="alert alert-info" role="alert">
           <h4 class="alert-heading">Your cart is empty.</h4>
           <p>Please add items to your cart clicking on the button below.</p>
           <hr />
