@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PharmaGo.Domain.Entities
 {
-    public class Product
+    public class Product : PharmacyItem
     {
         public Product()
         {
@@ -18,13 +18,6 @@ namespace PharmaGo.Domain.Entities
             this.Description = description;
             this.Price = price;
         }
-
-        public int Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
-        public Pharmacy? Pharmacy { get; set; }
-        public bool Deleted { get; set; }
     }
 }

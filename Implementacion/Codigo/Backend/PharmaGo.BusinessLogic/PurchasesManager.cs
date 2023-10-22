@@ -42,43 +42,68 @@ namespace PharmaGo.BusinessLogic
             string validEmail = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
             Regex rgEmail = new(validEmail);
             if (string.IsNullOrEmpty(purchase.BuyerEmail) || !rgEmail.IsMatch(purchase.BuyerEmail))
+            {
                 throw new InvalidResourceException("Invalid Email");
+            }
 
             if ((purchase.details == null || purchase.details.Count == 0))
+            {
                 throw new InvalidResourceException("The list of items can't be empty");
+            }
 
             if (purchase.PurchaseDate == DateTime.MinValue)
+            {
                 throw new InvalidResourceException("The purchase date is a mandatory field");
+            }
 
             decimal total = 0;
             foreach (var detail in purchase.details)
             {
                 int pharmacyId = detail.Pharmacy.Id;
                 if (pharmacyId <= 0)
+                {
                     throw new ResourceNotFoundException($"Pharmacy Id is a mandatory field");
+                }
 
-                var pharmacy = _pharmacysRepository.GetOneByExpression(x => x.Id == pharmacyId);
+                var pharmacy = this._pharmacysRepository.GetOneByExpression(x => x.Id == pharmacyId);
                 if (pharmacy is null)
+                {
                     throw new ResourceNotFoundException($"Pharmacy {detail.Pharmacy.Id} not found");
+                }
 
                 if (detail.Quantity <= 0)
+                {
                     throw new InvalidResourceException("The Quantity is a mandatory field");
+                }
 
-                string drugCode = detail.Drug.Code;
-                var drug = pharmacy.Drugs.FirstOrDefault(x => x.Code == drugCode && x.Deleted == false);
+                string itemCode = detail.Item.Code;
+                var drug = pharmacy.Drugs.FirstOrDefault(x => x.Code == itemCode && x.Deleted == false);
                 if (drug is null)
-                    throw new ResourceNotFoundException($"Drug {drugCode} not found in Pharmacy {pharmacy.Name}");
+                {
+                    var product = pharmacy.Products.FirstOrDefault(x => x.Code == itemCode && x.Deleted == false);
+                    if (product is null)
+                    {
+                        throw new ResourceNotFoundException($"Item {itemCode} not found in Pharmacy {pharmacy.Name}");
+                    }
+                    else
+                    {
+                        detail.Item = product;
+                    }
+                }
+                else
+                {
+                    detail.Item = drug;
+                }
 
                 detail.Pharmacy = pharmacy;
                 total = total + (drug.Price * detail.Quantity);
                 detail.Price = drug.Price;
-                detail.Drug = drug;
-                detail.Status = PENDING;
+                detail.Status = this.PENDING;
             }
             purchase.TotalAmount = total;
-            purchase.TrackingCode = generateTrackingCode();
-            _purchasesRepository.InsertOne(purchase);
-            _purchasesRepository.Save();
+            purchase.TrackingCode = this.generateTrackingCode();
+            this._purchasesRepository.InsertOne(purchase);
+            this._purchasesRepository.Save();
 
             return purchase;
         }
@@ -96,10 +121,10 @@ namespace PharmaGo.BusinessLogic
             if (purchase is null)
                 throw new ResourceNotFoundException($"Purchase not found {purchaseId}");
 
-            PurchaseDetail purchaseDetail = null;
+            PurchaseDetail? purchaseDetail = null;
             foreach (PurchaseDetail d in purchase.details)
             {
-                if (d.Pharmacy.Id == pharmacyId && d.Drug.Code == drugCode && d.Status.Equals(PENDING))
+                if (d.Pharmacy.Id == pharmacyId && d.Item.Code == drugCode && d.Status.Equals(PENDING))
                 {
                     purchaseDetail = d;
                     break;
@@ -138,10 +163,12 @@ namespace PharmaGo.BusinessLogic
             Purchase purchase = _purchasesRepository.GetOneDetailByExpression(p => p.Id == purchaseId);
             if (purchase is null)
                 throw new ResourceNotFoundException($"Purchase not found {purchaseId}");
-            
-            PurchaseDetail purchaseDetail = null;
-            foreach (PurchaseDetail d in purchase.details) {
-                if (d.Pharmacy.Id == pharmacyId && d.Drug.Code == drugCode && d.Status.Equals(PENDING)) {
+
+            PurchaseDetail? purchaseDetail = null;
+            foreach (PurchaseDetail d in purchase.details)
+            {
+                if (d.Pharmacy.Id == pharmacyId && d.Item.Code == drugCode && d.Status.Equals(PENDING))
+                {
                     purchaseDetail = d;
                     break;
                 }
@@ -181,13 +208,15 @@ namespace PharmaGo.BusinessLogic
             var purchases = _purchasesRepository.GetAllByExpression(s => s.Id > 0);
 
             ICollection<Purchase> response = new List<Purchase>();
-            foreach(Purchase purchase in purchases)
+            foreach (Purchase purchase in purchases)
             {
                 ICollection<PurchaseDetail> _details = new List<PurchaseDetail>();
                 decimal total = 0;
-                foreach (PurchaseDetail detail in purchase.details) {
+                foreach (PurchaseDetail detail in purchase.details)
+                {
                     if (detail.Pharmacy.Id == pharmacy.Id &&
-                        (detail.Status.Equals(PENDING) || detail.Status.Equals(APPROVED))) {
+                        (detail.Status.Equals(PENDING) || detail.Status.Equals(APPROVED)))
+                    {
                         total += (detail.Price * detail.Quantity);
                         _details.Add(detail);
                     }
@@ -253,13 +282,14 @@ namespace PharmaGo.BusinessLogic
                 decimal total = 0;
                 foreach (PurchaseDetail detail in purchase.details)
                 {
-                    if (detail.Pharmacy.Id == pharmacy.Id) {
+                    if (detail.Pharmacy.Id == pharmacy.Id)
+                    {
                         if (detail.Status.Equals(PENDING) || detail.Status.Equals(APPROVED))
                         {
                             total += (detail.Price * detail.Quantity);
                             _details.Add(detail);
                         }
-                        else 
+                        else
                         {
                             _details.Add(detail);
                         }

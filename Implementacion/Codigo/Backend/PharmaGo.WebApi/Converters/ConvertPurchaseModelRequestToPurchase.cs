@@ -19,7 +19,7 @@ namespace PharmaGo.WebApi.Converters
                     .Add(new PurchaseDetail
                     {
                         Quantity = detail.Quantity,
-                        Drug = new Drug { Code = detail.Code },
+                        Item = new PharmacyItem() { Code = detail.Code },
                         Pharmacy = new()
                         {
                             Id = detail.PharmacyId
