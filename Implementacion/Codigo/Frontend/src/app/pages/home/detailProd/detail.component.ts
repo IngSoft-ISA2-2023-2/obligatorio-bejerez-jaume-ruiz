@@ -52,11 +52,13 @@ export class DetailComponent implements OnInit {
       let exist: boolean = false;
       for (let item of this.cartP) {
         if (item.id === prod.id){
+          item.quantity += this.quantity;
           exist = true;
           break;
         }
       }
       if (!exist){
+        prod.quantity = this.quantity;
         this.cartP.push(prod);
       }
       this.storageManager.saveData('cartP', JSON.stringify(this.cartP));

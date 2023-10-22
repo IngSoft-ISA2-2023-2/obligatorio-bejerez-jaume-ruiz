@@ -11,7 +11,7 @@
     <c-row [ngStyle]="{ width: '100%' }">
       <c-col>
         <h3 [ngStyle]="{ 'text-align': 'center' }">Cart</h3>
-        <div *ngIf="cartD.length > 0">
+        <div *ngIf="cartD.length > 0 || cartP.length > 0">
           <table cTable hover [responsive]="true">
             <thead>
               <tr>
@@ -52,12 +52,15 @@
             </tfoot>
           </table>
           <br>
+
           <table cTable hover [responsive]="true">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Prod</th>
+                <th scope="col">Drug</th>
                 <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -66,6 +69,8 @@
                 <th scope="row">{{ indexOfelement + 1 }}</th>
                 <td>{{ prod.name }}</td>
                 <td>{{ prod.price | currency }}</td>
+                <td>{{ prod.quantity }}</td>
+                <td>{{ prod.price * prod.quantity | currency }}</td>
                 <td>
                   <button
                     title="Delete"

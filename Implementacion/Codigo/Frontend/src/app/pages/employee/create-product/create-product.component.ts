@@ -19,8 +19,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class CreateProductComponent implements OnInit {
   form: FormGroup | any;
   pharmacys: Pharmacy[] = [];
-  unitMeasure: UnitMeasure[] = [];
-  presentation: Presentation[] = [];
+
 
   icons = { cilBarcode, cilPencil, cilAlignCenter, cilLibrary,
     cilDollar, cilLoop1, cilTask, cilShortText, cilPaint };
@@ -34,9 +33,11 @@ export class CreateProductComponent implements OnInit {
   ) {
     
     this.form = this.fb.group({
+        code: new FormControl(),
         name: new FormControl(),
         description: new FormControl(), 
         price: new FormControl(),
+        quantity: new FormControl(),
       });
   }
 
@@ -55,12 +56,23 @@ export class CreateProductComponent implements OnInit {
     return this.form.controls.price;
   }
 
+  get quantity(): AbstractControl {
+    return this.form.controls.quantity;
+  }
+
+  get code(): AbstractControl {
+    return this.form.controls.code;
+  }
+
   createProduct(): void {
+    let code = this.code.value ? this.code.value : "";
     let name = this.name.value ? this.name.value : "";
     let description = this.description.value ? this.description.value : "";
     let price = this.price.value ? this.price.value : 0;
+    let quantity = this.quantity.value ? this.quantity.value : 0;
 
-    let productRequest = new ProductRequest(name, description, price);
+
+    let productRequest = new ProductRequest(code, name, description, price, quantity);
         this.productService.createProduct(productRequest).subscribe((prod) => {
         this.form.reset();
         if (prod){
