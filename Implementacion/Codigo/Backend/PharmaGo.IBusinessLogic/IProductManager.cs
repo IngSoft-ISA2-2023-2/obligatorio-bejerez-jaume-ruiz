@@ -8,5 +8,6 @@ namespace PharmaGo.IBusinessLogic
     {
         Product Create(Product product, string token);
         IEnumerable<Product> GetAll(ProductSearchCriteria productSearchCriteria);
+        Product Update(int id, Product product);
     }
 }
