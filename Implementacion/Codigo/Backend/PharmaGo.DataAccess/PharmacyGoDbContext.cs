@@ -18,10 +18,12 @@ namespace PharmaGo.DataAccess
         public DbSet<UnitMeasure> UnitMeasures { get; set; }
         public DbSet<Presentation> Presentations { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public PharmacyGoDbContext(DbContextOptions<PharmacyGoDbContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
             modelBuilder.Entity<Drug>().Property(property => property.Price).HasPrecision(14, 2);
             modelBuilder.Entity<Purchase>().Property(property => property.TotalAmount).HasPrecision(14, 2);
