@@ -149,5 +149,17 @@ namespace PharmaGo.BusinessLogic
             productSaved.Description = updatedProduct.Description;
             productSaved.Price = updatedProduct.Price;
         }
+
+        public void Delete(int id)
+        {
+            var productSaved = this._productRepository.GetOneByExpression(d => d.Id == id);
+            if (productSaved == null)
+            {
+                throw new ResourceNotFoundException("The product to delete does not exist.");
+            }
+            productSaved.Deleted = true;
+            this._productRepository.UpdateOne(productSaved);
+            this._productRepository.Save();
+        }
     }
 }

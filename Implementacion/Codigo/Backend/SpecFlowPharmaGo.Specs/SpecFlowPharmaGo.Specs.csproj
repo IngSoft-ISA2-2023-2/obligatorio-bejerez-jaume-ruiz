@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\UpdateProduct - Copy.feature.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <UpToDateCheckInput Remove="features\UpdateProduct.feature" />
   </ItemGroup>
 
@@ -28,6 +32,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PharmaGo.WebApi\PharmaGo.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Features\DeleteProduct.feature.cs">
+      <DependentUpon>DeleteProduct.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\DeleteProduct.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
   </ItemGroup>
 
 </Project>

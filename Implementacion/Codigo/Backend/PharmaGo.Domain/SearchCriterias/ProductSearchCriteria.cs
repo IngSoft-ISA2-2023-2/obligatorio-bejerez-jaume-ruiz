@@ -19,19 +19,19 @@ namespace PharmaGo.Domain.SearchCriterias
         {
             if (!string.IsNullOrEmpty(this.Name) && this.PharmacyId != null)
             {
-                return p => p.Name == product.Name && p.Pharmacy == product.Pharmacy;
+                return p => p.Name == product.Name && !p.Deleted && p.Pharmacy == product.Pharmacy;
             }
             else if (string.IsNullOrEmpty(this.Name) && this.PharmacyId != null)
             {
-                return p => p.Pharmacy == product.Pharmacy;
+                return p => p.Pharmacy == product.Pharmacy && !p.Deleted;
             }
             else if (!string.IsNullOrEmpty(this.Name) && this.PharmacyId == null)
             {
-                return p => p.Name == product.Name;
+                return p => p.Name == product.Name && !p.Deleted;
             }
             else
             {
-                return p => p.Name == p.Name;
+                return p => p.Name == p.Name && !p.Deleted;
             }
         }
     }
