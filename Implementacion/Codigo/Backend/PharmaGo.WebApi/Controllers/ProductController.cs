@@ -39,5 +39,13 @@ namespace PharmaGo.WebApi.Controllers
             ProductDetailModel productResponse = new ProductDetailModel(productCreated);
             return this.Ok(productResponse);
         }
+
+        [HttpPut("{id}")]
+        [AuthorizationFilter(new string[] { nameof(RoleType.Employee) })]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateProductModel updatedProduct)
+        {
+            Product product = this._productManager.Update(id, updatedProduct.ToEntity());
+            return this.Ok(new ProductDetailModel(product));
+        }
     }
 }
