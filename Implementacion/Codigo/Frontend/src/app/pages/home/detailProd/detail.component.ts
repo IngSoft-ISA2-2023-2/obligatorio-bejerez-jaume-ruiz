@@ -7,6 +7,8 @@ import { DrugService } from '../../../services/drug.service';
 import { StorageManager } from '../../../utils/storage-manager';
 import { Router } from '@angular/router'; 
 import { CommonService } from '../../../services/CommonService';
+import { Product } from 'src/app/interfaces/product';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-detail',
@@ -14,14 +16,14 @@ import { CommonService } from '../../../services/CommonService';
   styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent implements OnInit {
-  drug: Drug | undefined;
+  prod: Product | undefined;
   quantity: number = 1;
-  cartD: Drug[] = [];
+  cartP: Product[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public iconSet: IconSetService,
-    private drugService: DrugService,
+    private productService: ProductService,
     private storageManager: StorageManager,
     private router: Router,
     private commonService: CommonService
@@ -30,38 +32,36 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDrug();
+    this.getProduct();
     this.storageManager.saveData('total', JSON.stringify(0));
   }
 
-  getDrug(): void {
+  getProduct(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.drugService.getDrug(id).subscribe((drug) => (this.drug = drug));
+    this.productService.getProduct(id).subscribe((prod) => (this.prod = prod));
   }
 
-  addToCart(drug: Drug) {
-    if (drug) {
-      this.cartD = JSON.parse(this.storageManager.getData('cartD'));
-      if (!this.cartD) {
-        this.cartD = [];
-        this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
+  addToCart(prod: Product) {
+    if (prod) {
+      this.cartP = JSON.parse(this.storageManager.getData('cartP'));
+      if (!this.cartP) {
+        this.cartP = [];
+        this.storageManager.saveData('cartP', JSON.stringify(this.cartP));
       }
       
       let exist: boolean = false;
-      for (let item of this.cartD) {
-        if (item.code === drug.code && item.id === drug.id){
-          item.quantity += this.quantity;
+      for (let item of this.cartP) {
+        if (item.id === prod.id){
           exist = true;
           break;
         }
       }
       if (!exist){
-        drug.quantity = this.quantity;
-        this.cartD.push(drug);
+        this.cartP.push(prod);
       }
-      this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
+      this.storageManager.saveData('cartP', JSON.stringify(this.cartP));
     }
-    this.updateHeader(this.cartD.length);
+    this.updateHeader(this.cartP.length);
     this.router.navigate(['/home/cart']);
   }
 
