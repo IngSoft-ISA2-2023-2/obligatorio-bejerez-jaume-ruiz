@@ -7,6 +7,7 @@ import { StorageManager } from '../../../utils/storage-manager';
 import { PurchaseRequest, PurchaseRequestDetail } from 'src/app/interfaces/purchase';
 import { CommonService } from '../../../services/CommonService';
 import { Drug } from 'src/app/interfaces/drug';
+import { Product } from 'src/app/interfaces/product';
 
 @Component({
   selector: 'app-cho',
@@ -16,7 +17,8 @@ import { Drug } from 'src/app/interfaces/drug';
 export class ChoComponent implements OnInit {
   total: number = 0;
   email: string = "";
-  cart: Drug[] = [];
+  cartD: Drug[] = [];
+  cartP: Product[] = [];
 
   constructor(
     public iconSet: IconSetService,
@@ -37,9 +39,14 @@ export class ChoComponent implements OnInit {
   }
 
   finishPurchase(): void {
-    let cart = JSON.parse(this.storageManager.getData('cart'));
+    let cartD = JSON.parse(this.storageManager.getData('cartD'));
+    let cartP = JSON.parse(this.storageManager.getData('cartP'));
     let details : PurchaseRequestDetail[] = [];
-    for (const item of cart) {
+    for (const item of cartD) {
+      let detail = new PurchaseRequestDetail(item.code, item.quantity, item.pharmacy.id);
+      details.push(detail);
+    }
+    for (const item of cartP) {
       let detail = new PurchaseRequestDetail(item.code, item.quantity, item.pharmacy.id);
       details.push(detail);
     }
@@ -54,17 +61,23 @@ export class ChoComponent implements OnInit {
                   "Tracking code: " + purchase.trackingCode, 
                   "success", 
                   "Thank you for your purchase.");
-        this.storageManager.removeData("cart");          
+        this.storageManager.removeData("cartD"); 
+        this.storageManager.removeData("cartP");          
         this.router.navigate(['/home']);
       }
     });
   }
 
   updateCart(): void {
-    this.cart = JSON.parse(this.storageManager.getData('cart'));
-    if (!this.cart) {
-      this.cart = [];
-      this.storageManager.saveData('cart', JSON.stringify(this.cart));
+    this.cartD = JSON.parse(this.storageManager.getData('cartD'));
+    if (!this.cartD) {
+      this.cartD = [];
+      this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
+    }
+    this.cartP = JSON.parse(this.storageManager.getData('cartP'));
+    if (!this.cartP) {
+      this.cartP = [];
+      this.storageManager.saveData('cartP', JSON.stringify(this.cartP));
     }
   }
 }

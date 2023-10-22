@@ -56,7 +56,7 @@ export class DeleteProductComponent implements OnInit {
           this.visible = false;
           this.getProductByUser();
           this.commonService.updateToastData(
-            `Success deleting drug "${this.targetItem.code} - ${this.targetItem.name}"`,
+            `Success deleting products "${this.targetItem.code} - ${this.targetItem.name}"`,
             'success',
             'Product deleted.'
           );

@@ -35,7 +35,7 @@ export class ProductService {
   }
 
     /** GET product by id. Will 404 if id not found */
-    getDrug(id: number): Observable<Product> {
+    getProduct(id: number): Observable<Product> {
       const url = `${this.url}/${id}`;
       return this.http.get<Product>(url, {headers: this.getHttpHeaders() })
       .pipe(
