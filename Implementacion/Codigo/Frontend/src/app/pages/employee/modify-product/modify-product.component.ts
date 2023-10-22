@@ -23,9 +23,6 @@ export class ModifyProductComponent implements OnInit {
   icons = { cilCheckAlt, cilX, cilBarcode, cilPencil, cilAlignCenter, cilLibrary,
     cilDollar, cilLoop1, cilTask, cilShortText, cilPaint};
   targetItem: any = undefined;
-  visible = false;
-  modalTitle = '';
-  modalMessage = '';
   showForm: boolean = false;
   form: FormGroup | any;
   productToModify: Product | any;
@@ -46,6 +43,15 @@ export class ModifyProductComponent implements OnInit {
         name: new FormControl(),
         description: new FormControl(), 
         price: new FormControl(),
+      });
+
+      document.addEventListener('click', (event) => {
+        if (this.showForm) {
+          const formElement = document.getElementById('modifyForm'); 
+          if (formElement && !formElement.contains(event.target as Node)) {
+            this.hideProductForm();
+          }
+        }
       });
   }
 
@@ -115,15 +121,12 @@ export class ModifyProductComponent implements OnInit {
 
         if (prod){
           this.commonService.updateToastData(
-            `Success creating "${prod.name}"`,
+            `Success modifying "${prod.name}"`,
             'success',
-            'Product created.'
+            'Product modified.'
           );
         }
       });
-      this.modalTitle = 'Modify Product';
-      this.modalMessage = `Deleting '${this.targetItem.code} - ${this.targetItem.name}'. Are you sure ?`;
-      this.visible = true;
     }
   }
 
@@ -136,24 +139,11 @@ export class ModifyProductComponent implements OnInit {
     this.showForm = false;
   }
 
-  closeModal(): void {
-    this.visible = false;
-  }
-
-
-  saveModal(event: any): void {
-    if (event) {
-      this.productService.deleteProduct(this.targetItem.id).subscribe((p: any) => {
-        if (p) {
-          this.visible = false;
-          this.getProductByUser();
-          this.commonService.updateToastData(
-            `Success deleting drug "${this.targetItem.code} - ${this.targetItem.name}"`,
-            'success',
-            'Product deleted.'
-          );
-        }
-      });
+  preventClick(event: Event) {
+    if (this.showForm) {
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
+
 }
