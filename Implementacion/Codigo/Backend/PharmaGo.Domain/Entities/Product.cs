@@ -8,6 +8,10 @@ namespace PharmaGo.Domain.Entities
 {
     public class Product
     {
+        public Product()
+        {
+        }
+
         public Product(string name, string description, decimal price)
         {
             this.Name = name;
@@ -20,5 +24,6 @@ namespace PharmaGo.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public Pharmacy? Pharmacy { get; set; }
     }
 }
