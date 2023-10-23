@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home/home.component';
 import { CartComponent } from './pages/home/cart/cart.component';
 import { ChoComponent } from './pages/home/cho/cho.component';
 import { DetailComponent } from './pages/home/detail/detail.component';
+import { DetailProdComponent } from './pages/home/detail-prod/detail-prod.component';
 import { TrackingComponent } from './pages/home/tracking/tracking.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin/admin.component';
@@ -37,7 +38,7 @@ const routes: Routes = [
   { path: 'home/cart', component: CartComponent },
   { path: 'home/cart/cho', component: ChoComponent },
   { path: 'home/detail/:id', component: DetailComponent },
-  { path: 'home/detailProd/:id', component: DetailComponent },
+  { path: 'home/detail-prod/:id', component: DetailProdComponent },
   { path: 'home/tracking', component: TrackingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

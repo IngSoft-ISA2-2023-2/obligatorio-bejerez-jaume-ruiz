@@ -78,7 +78,7 @@ namespace PharmaGo.BusinessLogic
 
                 string? drugCode = detail.Drug?.Code;
                 decimal price;
-                if (drugCode != null)
+                if (!string.IsNullOrEmpty(drugCode))
                 {
                     var drug = pharmacy.Drugs.FirstOrDefault(x => x.Code == drugCode && x.Deleted == false);
                     if (drug is null)
@@ -91,7 +91,7 @@ namespace PharmaGo.BusinessLogic
                 else
                 {
                     string? productCode = detail.Product?.Code;
-                    var product = pharmacy.Products.FirstOrDefault(x => x.Code == productCode && x.Deleted == false);
+                    var product = pharmacy.Products?.FirstOrDefault(x => x.Code == productCode && x.Deleted == false);
                     if (product is null)
                     {
                         throw new ResourceNotFoundException($"Product {productCode} not found in Pharmacy {pharmacy.Name}");
