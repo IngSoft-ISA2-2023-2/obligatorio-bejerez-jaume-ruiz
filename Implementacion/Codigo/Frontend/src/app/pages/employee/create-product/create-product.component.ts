@@ -72,7 +72,7 @@ export class CreateProductComponent implements OnInit {
     let quantity = this.quantity.value ? this.quantity.value : 0;
 
 
-    let productRequest = new ProductRequest(code, name, description, price, quantity);
+    let productRequest = new ProductRequest(name, description, price);
         this.productService.createProduct(productRequest).subscribe((prod) => {
         this.form.reset();
         if (prod){

@@ -13,7 +13,7 @@ namespace PharmaGo.DataAccess.Repositories
     {
         private readonly PharmacyGoDbContext _context;
 
-        public DrugRepository(PharmacyGoDbContext context) : base(context) 
+        public DrugRepository(PharmacyGoDbContext context) : base(context)
         {
             _context = context;
         }
@@ -29,8 +29,9 @@ namespace PharmaGo.DataAccess.Repositories
             _context.Set<Drug>().Add(drug);
         }
 
-        public override IEnumerable<Drug> GetAllByExpression(Expression<Func<Drug, bool>> expression) {
-            return _context.Set<Drug>().Include(x => x.Pharmacy).Where(expression);
+        public override IEnumerable<Drug> GetAllByExpression(Expression<Func<Drug, bool>> expression)
+        {
+            return _context.Set<PharmacyItem>().OfType<Drug>().Include(x => ((Drug)x).Pharmacy).Where(expression);
         }
     }
 }

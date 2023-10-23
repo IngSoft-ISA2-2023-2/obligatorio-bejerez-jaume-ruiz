@@ -34,7 +34,7 @@ namespace PharmaGo.BusinessLogic
             this.ValidateFieldsAreValid(product);
 
             this.ValidateProductPharmacy(pharmacyOfProduct);
-            product.Pharmacy.Id = pharmacyOfProduct.Id;
+            product.Pharmacy = pharmacyOfProduct;
 
             product.Code = this.GenerateProductCode(product);
 
