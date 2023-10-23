@@ -44,17 +44,35 @@ namespace PharmaGo.WebApi.Models.Out
 
         private PurchaseDetailModelResponse GetPurchaseDetailResponse(PurchaseDetail detail)
         {
-            return new PurchaseDetailModelResponse
+            if (detail.Drug != null)
             {
-                Id = detail.Id,
-                Name = detail.Item.Name,
-                Code = detail.Item.Code,
-                Price = detail.Item.Price,
-                Quantity = detail.Quantity,
-                PharmacyId = detail.Pharmacy.Id,
-                PharmacyName = detail.Pharmacy.Name,
-                Status = detail.Status
-            };
+                return new PurchaseDetailModelResponse
+                {
+                    Id = detail.Id,
+                    Name = detail.Drug.Name,
+                    Code = detail.Drug.Code,
+                    Price = detail.Drug.Price,
+                    Quantity = detail.Quantity,
+                    PharmacyId = detail.Pharmacy.Id,
+                    PharmacyName = detail.Pharmacy.Name,
+                    Status = detail.Status
+                };
+            }
+            else
+            {
+                return new PurchaseDetailModelResponse
+                {
+                    Id = detail.Id,
+                    Name = detail.Product.Name,
+                    Code = detail.Product.Code,
+                    Price = detail.Product.Price,
+                    Quantity = detail.Quantity,
+                    PharmacyId = detail.Pharmacy.Id,
+                    PharmacyName = detail.Pharmacy.Name,
+                    Status = detail.Status
+                };
+            }
+
         }
     }
 }

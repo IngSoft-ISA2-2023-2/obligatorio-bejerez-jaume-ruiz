@@ -53,12 +53,12 @@ namespace PharmaGo.Test.BusinessLogic.Test
             drug1 = new Drug { Id = 1, Deleted = false, Code = "XF324", Name = "Aspirina", Prescription = false, Price = 100, Stock = 50, Quantity = 10, UnitMeasure = unitMeasure1, Presentation = presentation1, Symptom = "afecciones bronquiales que cursan con tos y secreciones" };
             drug2 = new Drug { Id = 2, Deleted = false, Code = "RS546", Name = "Abrilar", Prescription = false, Price = 250, Stock = 50, Quantity = 20, UnitMeasure = unitMeasure2, Presentation = presentation2, Symptom = "acción analgésica, alivio de los dolores ocasionales leves o\r\nmoderados, como dolores de cabeza, musculares, de espalda.\r\nPresentación: comprimidos" };
 
-            pharmacy = new Pharmacy { Id = 1, Name = "Farmacia 1", Address = "Av. Italia 12345", Users = new List<User>(), Drugs = new List<Drug> { drug1 } };
-            pharmacy2 = new Pharmacy { Id = 2, Name = "Farmacia 2", Address = "Av. Italia 22222", Users = new List<User>(), Drugs = new List<Drug> { drug2 } };
+            pharmacy = new Pharmacy { Id = 1, Name = "Farmacia 1", Address = "Av. Italia 12345", Users = new List<User>(), Drugs = new List<Drug> { drug1 }, Products = new List<Product>() };
+            pharmacy2 = new Pharmacy { Id = 2, Name = "Farmacia 2", Address = "Av. Italia 22222", Users = new List<User>(), Drugs = new List<Drug> { drug2 }, Products = new List<Product>() };
 
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy, Status = "Pending"},
-                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy2, Status = "Approved" }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy, Status = "Pending"},
+                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy2, Status = "Approved" }
             };
 
             purchase = new Purchase
@@ -191,7 +191,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
             };
             Drug drug3 = new Drug { Id = 3, Deleted = false, Code = "RS500", Name = "Perifar", Prescription = false, Price = 250, Stock = 50, Quantity = 20, UnitMeasure = unitMeasure2, Presentation = presentation2, Symptom = "acción analgésica, alivio de los dolores ocasionales leves o\r\nmoderados, como dolores de cabeza, musculares, de espalda.\r\nPresentación: comprimidos" };
             Pharmacy pharmacy3 = new Pharmacy { Id = 3, Name = "Farmacia 3", Address = "Av. Italia 3333", Users = new List<User>(), Drugs = new List<Drug> { drug3 }, Products = new List<Product>() };
-            PurchaseDetail purchaseDetail3 = new PurchaseDetail { Id = 1, Quantity = 2, Price = new decimal(100), Item = drug2, Pharmacy = pharmacy3, Status = "Pending" };
+            PurchaseDetail purchaseDetail3 = new PurchaseDetail { Id = 1, Quantity = 2, Price = new decimal(100), Drug = drug2, Pharmacy = pharmacy3, Status = "Pending" };
             purchase.details.Add(purchaseDetail3);
 
             _pharmacyRespository.Setup(y => y.GetOneByExpression(x => x.Id == 1)).Returns(pharmacy);
@@ -212,8 +212,8 @@ namespace PharmaGo.Test.BusinessLogic.Test
             pharmacy.Drugs.Add(drug1);
             pharmacy.Drugs.Add(drug2);
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1},
-                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Item = drug2 }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1},
+                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Drug = drug2 }
             };
             purchase.details = purchaseDetail;
 
@@ -232,8 +232,8 @@ namespace PharmaGo.Test.BusinessLogic.Test
                 drug2
             };
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy =  new Pharmacy { Id = 0}},
-                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy =  new Pharmacy { Id = 0}},
+                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy }
             };
             purchase.details = purchaseDetail;
 
@@ -250,8 +250,8 @@ namespace PharmaGo.Test.BusinessLogic.Test
             pharmacy.Drugs.Add(drug1);
             pharmacy.Drugs.Add(drug2);
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 0, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy},
-                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy2 }
+                new PurchaseDetail{Id = 1, Quantity = 0, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy},
+                new PurchaseDetail{Id = 2, Quantity = 51, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy2 }
             };
             purchase.details = purchaseDetail;
 
@@ -300,13 +300,13 @@ namespace PharmaGo.Test.BusinessLogic.Test
             pharmacy2 = new Pharmacy { Id = 100, Name = "Farmacia 100", Address = "Av. Italia 100", Users = new List<User>(), Drugs = new List<Drug> { drug1 } };
 
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy, Status = "Pending"},
-                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy2, Status = "Approved" }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy, Status = "Pending"},
+                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy2, Status = "Approved" }
             };
 
             ICollection<PurchaseDetail> purchaseDetail2 = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy, Status = "Rejected"},
-                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy2, Status = "Approved" }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy, Status = "Rejected"},
+                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy2, Status = "Approved" }
             };
 
             purchase = new Purchase
@@ -499,6 +499,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         public void Approve_Purchase_Ok()
         {
             //Arrange
+            pharmacy.Products = new List<Product>();
             _purchaseRespository
                 .Setup(y => y.GetOneDetailByExpression(p => p.Id == 1))
                 .Returns(purchase);

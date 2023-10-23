@@ -46,13 +46,13 @@ namespace PharmaGo.Test.DataAccess.Test
             drug4 = new Drug { Deleted = false, Code = "RS546", Name = "Abrilar", Prescription = false, Price = 250, Stock = 50, Quantity = 20, UnitMeasure = unitMeasure2, Presentation = presentation2, Symptom = "acción analgésica, alivio de los dolores ocasionales leves o\r\nmoderados, como dolores de cabeza, musculares, de espalda.\r\nPresentación: comprimidos" };
 
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy},
-                new PurchaseDetail{Quantity = 1, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy_2}
+                new PurchaseDetail{Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy},
+                new PurchaseDetail{Quantity = 1, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy_2}
             };
 
             purchaseDetail_2 = new List<PurchaseDetail> {
-                new PurchaseDetail{Quantity = 2, Price = new decimal(100), Item =  drug3, Pharmacy = pharmacy},
-                new PurchaseDetail{Quantity = 1, Price = new decimal(250), Item = drug4, Pharmacy = pharmacy_2}
+                new PurchaseDetail{Quantity = 2, Price = new decimal(100), Drug =  drug3, Pharmacy = pharmacy},
+                new PurchaseDetail{Quantity = 1, Price = new decimal(250), Drug = drug4, Pharmacy = pharmacy_2}
             };
 
             purchase = new Purchase

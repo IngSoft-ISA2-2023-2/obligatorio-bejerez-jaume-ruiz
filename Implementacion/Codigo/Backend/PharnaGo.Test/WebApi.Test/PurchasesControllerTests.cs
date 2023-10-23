@@ -53,8 +53,8 @@ namespace PharmaGo.Test.WebApi.Test
             ICollection<PurchaseModelRequest.PurchaseDetailModelRequest> purchaseModelDetailRequest =
                 new List<PurchaseModelRequest.PurchaseDetailModelRequest>
             {
-                new PurchaseModelRequest.PurchaseDetailModelRequest { Code = "XF324", Quantity = 2, PharmacyId = 1 },
-                new PurchaseModelRequest.PurchaseDetailModelRequest { Code = "RS546", Quantity = 1, PharmacyId = 2 }
+                new PurchaseModelRequest.PurchaseDetailModelRequest { DrugCode = "XF324", Quantity = 2, PharmacyId = 1 },
+                new PurchaseModelRequest.PurchaseDetailModelRequest { DrugCode = "RS546", Quantity = 1, PharmacyId = 2 }
             };
 
             purchaseModel = new PurchaseModelRequest()
@@ -75,8 +75,8 @@ namespace PharmaGo.Test.WebApi.Test
             drug2 = new Drug { Id = 2, Deleted = false, Code = "RS546", Name = "Abrilar", Prescription = false, Price = 250, Stock = 50, Quantity = 20, UnitMeasure = unitMeasure2, Presentation = presentation2, Symptom = "acción analgésica, alivio de los dolores ocasionales leves o\r\nmoderados, como dolores de cabeza, musculares, de espalda.\r\nPresentación: comprimidos" };
 
             purchaseDetail = new List<PurchaseDetail> {
-                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Item =  drug1, Pharmacy = pharmacy, Status = "Pending"},
-                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Item = drug2, Pharmacy = pharmacy2, Status = "Pending" }
+                new PurchaseDetail{Id = 1, Quantity = 2, Price = new decimal(100), Drug =  drug1, Pharmacy = pharmacy, Status = "Pending"},
+                new PurchaseDetail{Id = 2, Quantity = 1, Price = new decimal(250), Drug = drug2, Pharmacy = pharmacy2, Status = "Pending" }
             };
 
             purchase = new Purchase
@@ -220,10 +220,10 @@ namespace PharmaGo.Test.WebApi.Test
             Assert.AreEqual(value.ElementAt(1).TotalAmount, 450);
             Assert.AreEqual(value.ElementAt(0).Details.Count, 2);
             Assert.AreEqual(value.ElementAt(1).Details.Count, 2);
-            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Code, purchase.details.ElementAt(0).Item.Code);
-            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Name, purchase.details.ElementAt(0).Item.Name);
+            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Code, purchase.details.ElementAt(0).Drug.Code);
+            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Name, purchase.details.ElementAt(0).Drug.Name);
             Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Quantity, purchase.details.ElementAt(0).Quantity);
-            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Price, purchase.details.ElementAt(0).Item.Price);
+            Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).Price, purchase.details.ElementAt(0).Drug.Price);
             Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).PharmacyName, purchase.details.ElementAt(0).Pharmacy.Name);
             Assert.AreEqual(value.ElementAt(0).Details.ElementAt(0).PharmacyId, purchase.details.ElementAt(0).Pharmacy.Id);
         }
