@@ -13,14 +13,13 @@ export class PurchaseRequest {
 }
 
 export class PurchaseRequestDetail {
-  code: string = "";
+  DrugCode: string = "";
   quantity: number = 1;
   pharmacyId: number = 1;
+  ProductCode: string = "";
 
-  constructor(code: string, 
-                        quantity: number, 
-                        pharmacyId: number){
-      this.code = code;
+
+  constructor(quantity: number, pharmacyId: number){
       this.quantity = quantity;
       this.pharmacyId = pharmacyId;
   }

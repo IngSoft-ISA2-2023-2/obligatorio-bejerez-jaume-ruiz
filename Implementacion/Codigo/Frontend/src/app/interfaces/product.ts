@@ -12,17 +12,13 @@ export interface Product {
   }
 
   export class ProductRequest {
-    code: string;
     name: string;
     description: string;
     price: number;
-    quantity: number;
 
-    constructor(code: string, name: string, description: string, price: number, quantity: number){
-      this.code= code;
+    constructor(name: string, description: string, price: number){
       this.name = name;
       this.description = description;
       this.price = price;
-      this.quantity= quantity;
     }
   }

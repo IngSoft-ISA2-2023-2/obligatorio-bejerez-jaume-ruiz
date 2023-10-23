@@ -161,5 +161,26 @@ namespace PharmaGo.BusinessLogic
             this._productRepository.UpdateOne(productSaved);
             this._productRepository.Save();
         }
+
+        public Product GetById(int id)
+        {
+            Product retrievedProduct = this._productRepository.GetOneByExpression(d => d.Id == id);
+            if (retrievedProduct == null)
+            {
+                throw new ResourceNotFoundException("The product does not exist.");
+            }
+
+            return retrievedProduct;
+        }
+
+        public IEnumerable<Product> GetAllByUser(string token)
+        {
+            var guidToken = new Guid(token);
+            Session session = _sessionRepository.GetOneByExpression(s => s.Token == guidToken);
+            var userId = session.UserId;
+            User user = _userRepository.GetOneDetailByExpression(u => u.Id == userId);
+            Pharmacy pharmacy = user.Pharmacy;
+            return this._productRepository.GetAllByExpression(d => d.Deleted == false && d.Pharmacy.Id == pharmacy.Id);
+        }
     }
 }
