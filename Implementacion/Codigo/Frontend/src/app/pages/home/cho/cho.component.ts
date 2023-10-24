@@ -43,11 +43,13 @@ export class ChoComponent implements OnInit {
     let cartP = JSON.parse(this.storageManager.getData('cartP'));
     let details : PurchaseRequestDetail[] = [];
     for (const item of cartD) {
-      let detail = new PurchaseRequestDetail(item.code, item.quantity, item.pharmacy.id);
+      let detail = new PurchaseRequestDetail(item.quantity, item.pharmacy.id);
+      detail.DrugCode= item.code;
       details.push(detail);
     }
     for (const item of cartP) {
-      let detail = new PurchaseRequestDetail(item.code, item.quantity, item.pharmacy.id);
+      let detail = new PurchaseRequestDetail(item.quantity, item.pharmacy.id);
+      detail.ProductCode= item.code;
       details.push(detail);
     }
 

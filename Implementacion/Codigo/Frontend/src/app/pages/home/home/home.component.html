@@ -4,7 +4,7 @@
   <c-container>
     <c-row>
       <c-col>
-        <h4>Drogs</h4> <!-- Título de la primera lista -->
+        <h4>Drugs</h4> <!-- Título de la primera lista -->
         <c-card [cBorder]="{top: {color: 'info', width: 3}}" class="mb-3" *ngFor="let drug of drugs">
           <c-row class="g-0">
             <c-col [md]="4">
@@ -40,11 +40,11 @@
             <c-card-body cCol [md]="8">
               <h4 cCardTitle>{{ product.name }}</h4>
               <p cCardText> 
-                <b>Symptoms:</b> {{ product.description }} <br>
+                <b>Description:</b> {{ product.description }} <br>
                 <b>Price:</b> {{ product.price | currency}}
               </p>
               <div [ngStyle]="{ 'text-align': 'end' }">
-                <button cButton color="primary" [routerLink]="['/home/detailProd', product.id]">
+                <button cButton color="primary" [routerLink]="['/home/detail-prod', product.id]">
                   View Details
                   <svg cIcon name="cil-plus"></svg>
                 </button>

@@ -57,7 +57,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Drug</th>
+                <th scope="col">Product</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
@@ -75,7 +75,7 @@
                   <button
                     title="Delete"
                     class="btn btn-outline-info"
-                    (click)="deleteD(indexOfelement)"
+                    (click)="deleteP(indexOfelement)"
                   >
                     <svg cIcon name="cil-trash"></svg>
                   </button>
@@ -114,7 +114,7 @@
           </div>
         </div>
       
-        <div *ngIf="cartD.length === 0" class="alert alert-info" role="alert">
+        <div *ngIf="cartD.length === 0 && cartP.length === 0 " class="alert alert-info" role="alert">
           <h4 class="alert-heading">Your cart is empty.</h4>
           <p>Please add items to your cart clicking on the button below.</p>
           <hr />

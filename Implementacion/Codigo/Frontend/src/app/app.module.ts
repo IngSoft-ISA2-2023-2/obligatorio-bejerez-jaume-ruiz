@@ -42,6 +42,7 @@ import { ChoComponent } from './pages/home/cho/cho.component';
 import { DetailComponent } from './pages/home/detail/detail.component';
 import { TrackingComponent } from './pages/home/tracking/tracking.component';
 import { Page404Component } from './pages/home/page404/page404.component';
+import { DetailProdComponent } from './pages/home/detail-prod/detail-prod.component';
 
 // Admin
 import { AdminComponent } from './pages/admin/admin/admin.component';
@@ -58,6 +59,7 @@ import { DeleteDrugComponent } from './pages/employee/delete-drug/delete-drug.co
 import { ExportDrugsComponent } from './pages/employee/export-drugs/export-drugs.component';
 import { CreateProductComponent } from './pages/employee/create-product/create-product.component';
 import { DeleteProductComponent } from './pages/employee/delete-product/delete-product.component';
+import { ModifyProductComponent } from './pages/employee/modify-product/modify-product.component';
 
 // Login & Register
 import { LoginComponent } from './pages/login/login.component';
@@ -80,6 +82,7 @@ import { PurchaseByDateComponent } from './pages/owner/purchase-by-date/purchase
 import { InvitationComponent } from './pages/owner/invitation/invitation.component';
 import { StockRequestOwnerComponent } from './pages/owner/stock-request-owner/stock-request-owner.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +92,7 @@ import { StockRequestOwnerComponent } from './pages/owner/stock-request-owner/st
     ChoComponent,
     DetailComponent,
     TrackingComponent,
+    DetailProdComponent,
     // Custom components
     CustomFooterComponent,
     CustomHeaderComponent,
@@ -115,12 +119,14 @@ import { StockRequestOwnerComponent } from './pages/owner/stock-request-owner/st
     ExportDrugsComponent,
     CreateProductComponent,
     DeleteProductComponent,
+    ModifyProductComponent,
     // Owner
     OwnerComponent,
     PurchaseByDateComponent,
     InvitationComponent,
     StockRequestOwnerComponent,
     DeleteProductComponent,
+    DetailProdComponent,
   ],
   imports: [
     BrowserModule,

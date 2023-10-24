@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Drug, DrugRequest } from '../interfaces/drug';
 import { environment } from '../../environments/environment';
 import { CommonService } from './CommonService';
 import { StorageManager } from '../utils/storage-manager';
@@ -11,7 +10,7 @@ import { Product, ProductRequest } from '../interfaces/product';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-
+    
   private url = environment.apiUrl + '/api/product';
 
   httpOptions = {
@@ -40,7 +39,7 @@ export class ProductService {
       return this.http.get<Product>(url, {headers: this.getHttpHeaders() })
       .pipe(
         tap(),
-        catchError(this.handleError<Product>(`Get Drug id=${id}`))
+        catchError(this.handleError<Product>(`Get Product id=${id}`))
       );
     }
 
@@ -71,6 +70,15 @@ export class ProductService {
       catchError(this.handleError<any>('Delete Product'))
     );
   }
+
+  modifyProduct(targetItem: Product, productRequest: ProductRequest) {
+    const url = `${this.url}/${targetItem.id}`;
+    return this.http.put<ProductRequest>(url, productRequest, {headers: this.getHttpHeaders() })
+    .pipe(
+      tap(),
+      catchError(this.handleError<Product>('Modify Product'))
+    );
+   }
 
       getProductByUser(): Observable<Product[]> {
         const url = `${this.url}/user`;

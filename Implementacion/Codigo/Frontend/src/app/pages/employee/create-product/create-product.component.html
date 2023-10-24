@@ -9,17 +9,6 @@
               <h3>Create Product</h3>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
-                  <svg cIcon [cIcon]="icons.cilBarcode"></svg>
-                </span>
-                <input
-                  autoComplete="code"
-                  cFormControl
-                  placeholder="Code"
-                  formControlName="code"
-                />
-              </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
                   <svg cIcon [cIcon]="icons.cilPencil"></svg>
                 </span>
                 <input
@@ -52,19 +41,7 @@
                   formControlName="price"
                 />
               </c-input-group>
-              <c-input-group class="mb-3">
-                <span cInputGroupText>
-                  <svg cIcon [cIcon]="icons.cilLoop1"></svg>
-                </span>
-                <input
-                  cFormControl
-                  type="number"
-                  placeholder="Quantity"
-                  value="1" 
-                  min="1" 
-                  formControlName="quantity"
-                />
-              </c-input-group>
+
              
               <div class="d-grid">
                 <button 

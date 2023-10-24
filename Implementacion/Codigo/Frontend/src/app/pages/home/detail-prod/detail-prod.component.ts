@@ -2,8 +2,6 @@ import { Component, OnInit} from '@angular/core';
 import { cilCart, cilPlus, cilCompass } from '@coreui/icons';
 import { IconSetService } from '@coreui/icons-angular';
 import { ActivatedRoute } from '@angular/router';
-import { Drug } from 'src/app/interfaces/drug';
-import { DrugService } from '../../../services/drug.service';
 import { StorageManager } from '../../../utils/storage-manager';
 import { Router } from '@angular/router'; 
 import { CommonService } from '../../../services/CommonService';
@@ -11,12 +9,12 @@ import { Product } from 'src/app/interfaces/product';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'],
+  selector: 'app-detail-prod',
+  templateUrl: './detail-prod.component.html',
+  styleUrls: ['./detail-prod.component.css']
 })
-export class DetailComponent implements OnInit {
-  prod: Product | undefined;
+export class DetailProdComponent implements OnInit {
+  product: Product | undefined;
   quantity: number = 1;
   cartP: Product[] = [];
 
@@ -38,7 +36,7 @@ export class DetailComponent implements OnInit {
 
   getProduct(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.productService.getProduct(id).subscribe((prod) => (this.prod = prod));
+    this.productService.getProduct(id).subscribe((prod) => (this.product = prod));
   }
 
   addToCart(prod: Product) {

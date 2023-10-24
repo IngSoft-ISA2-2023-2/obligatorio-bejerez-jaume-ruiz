@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home/home.component';
 import { CartComponent } from './pages/home/cart/cart.component';
 import { ChoComponent } from './pages/home/cho/cho.component';
 import { DetailComponent } from './pages/home/detail/detail.component';
+import { DetailProdComponent } from './pages/home/detail-prod/detail-prod.component';
 import { TrackingComponent } from './pages/home/tracking/tracking.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin/admin.component';
@@ -15,6 +16,7 @@ import { EmployeeComponent } from './pages/employee/employee/employee.component'
 import { PurchaseStatusComponent } from './pages/employee/purchase-status/purchase-status.component';
 import { CreateDrugComponent } from './pages/employee/create-drug/create-drug.component';
 import { CreateProductComponent } from './pages/employee/create-product/create-product.component';
+import { ModifyProductComponent } from './pages/employee/modify-product/modify-product.component';
 import { DeleteDrugComponent } from './pages/employee/delete-drug/delete-drug.component';
 import { DeleteProductComponent } from './pages/employee/delete-product/delete-product.component';
 import { StockRequestComponent } from './pages/employee/stock-request/stock-request.component';
@@ -37,7 +39,7 @@ const routes: Routes = [
   { path: 'home/cart', component: CartComponent },
   { path: 'home/cart/cho', component: ChoComponent },
   { path: 'home/detail/:id', component: DetailComponent },
-  { path: 'home/detailProd/:id', component: DetailComponent },
+  { path: 'home/detail-prod/:id', component: DetailProdComponent },
   { path: 'home/tracking', component: TrackingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -47,6 +49,7 @@ const routes: Routes = [
   { path: 'employee/delete-product', component: DeleteProductComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
   { path: 'employee/create-drug', component: CreateDrugComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
   { path: 'employee/create-product', component: CreateProductComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
+  { path: 'employee/modify-product', component: ModifyProductComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
   { path: 'employee/stock-request', component: StockRequestComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
   { path: 'employee/create-request', component: CreateRequestComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
   { path: 'employee/export-drugs', component: ExportDrugsComponent, canActivate: [AuthenticationGuard], data: {roles: ['Employee'] } },
