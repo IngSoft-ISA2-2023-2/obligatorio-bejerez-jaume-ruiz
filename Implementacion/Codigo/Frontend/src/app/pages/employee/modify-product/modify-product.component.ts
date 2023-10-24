@@ -24,6 +24,9 @@ export class ModifyProductComponent implements OnInit {
     cilDollar, cilLoop1, cilTask, cilShortText, cilPaint};
   targetItem: any = undefined;
   showForm: boolean = false;
+  visible = false;
+  modalTitle = '';
+  modalMessage = '';
   form: FormGroup | any;
   productToModify: Product | any;
   unitMeasure: UnitMeasure[] = [];
@@ -45,20 +48,13 @@ export class ModifyProductComponent implements OnInit {
         price: new FormControl(),
       });
 
-      document.addEventListener('click', (event) => {
-        if (this.showForm) {
-          const formElement = document.getElementById('modifyForm'); 
-          if (formElement && !formElement.contains(event.target as Node)) {
-            this.hideProductForm();
-          }
-        }
-      });
+
+      
   }
 
   ngOnInit(): void {
     this.getProductByUser();
-    this.showForm = false;
-    this.productToModify = undefined;
+
   }
 
   getUnitMeasures(): void {
@@ -116,19 +112,20 @@ export class ModifyProductComponent implements OnInit {
     let productRequest = new ProductRequest(name, description, price);
         this.productService.modifyProduct(this.targetItem,productRequest).subscribe((prod) => {
         this.form.reset();
-        this.setDefaultPresentation();
-        this.setDefaultUnitMeasure();
-
-        if (prod){
+        this.showForm = false;
+        if(prod){
           this.commonService.updateToastData(
-            `Success modifying "${prod.name}"`,
+            `Success modifying product "${this.productToModify.name}"`,
             'success',
             'Product modified.'
           );
         }
+
       });
+
     }
   }
+
 
   showProductForm(product: Product) {
     this.productToModify = product;
