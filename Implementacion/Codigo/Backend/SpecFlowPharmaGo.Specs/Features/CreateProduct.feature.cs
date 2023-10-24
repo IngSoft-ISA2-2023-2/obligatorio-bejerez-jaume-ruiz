@@ -122,7 +122,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- testRunner.Given("the user logged with token Token123 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
  testRunner.When(string.Format("name {0}, description {1} and price {2} are entered for the new product", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -178,7 +178,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 20
- testRunner.Given("the user logged with token Token123 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 21
  testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -232,7 +232,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 33
- testRunner.Given("the user logged with token Token123 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 34
  testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -286,7 +286,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 47
- testRunner.Given("the user logged with token Token123 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 48
  testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -340,7 +340,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 60
- testRunner.Given("the user logged with token Token123 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 61
  testRunner.When(string.Format("{0}, {1} and {2} are entered", name, description, price), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

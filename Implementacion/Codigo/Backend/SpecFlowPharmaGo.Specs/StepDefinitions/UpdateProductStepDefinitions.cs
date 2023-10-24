@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using PharmaGo.BusinessLogic;
+using PharmaGo.DataAccess.Repositories;
+using PharmaGo.DataAccess;
 using PharmaGo.Domain.Entities;
 using PharmaGo.Domain.SearchCriterias;
 using PharmaGo.Exceptions;
@@ -11,26 +15,40 @@ using PharmaGo.WebApi.Controllers;
 using PharmaGo.WebApi.Models.In;
 using System.Collections;
 using System.Xml.Linq;
+using PharmaGo.WebApi.Models.Out;
 
 namespace SpecFlowPharmaGo.Specs.StepDefinitions
 {
     [Binding]
     public sealed class UpdateProductStepDefinitions
     {
-        private readonly Mock<IProductManager> _productManagerMock;
+        private readonly IProductManager _productManager;
         private ProductController _productController;
-        private Product _product;
+        private ProductDetailModel _productDetailModel;
         private UpdateProductModel _productModel;
         private ProductSearchCriteria _productSearch;
-        private List<Product> _products;
+        private readonly IRepository<Pharmacy> _pharmacyRepository;
+        private readonly IRepository<Session> _sessionRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Product> _productRepository;
+        private readonly PharmacyGoDbContext _dbContext;
+        private DbContextOptions<PharmacyGoDbContext> _options;
         private int _id;
 
         public UpdateProductStepDefinitions()
         {
-            this._productManagerMock = new Mock<IProductManager>(MockBehavior.Strict);
-            this._products = new List<Product>();
             this._id = 1;
-            this._productController = new ProductController(this._productManagerMock.Object);
+            var connectionString = "Server=.\\;Database=PharmaGo;Trusted_Connection=True; MultipleActiveResultSets=True";
+            var optionsBuilder = new DbContextOptionsBuilder<PharmacyGoDbContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+            this._options = optionsBuilder.Options;
+            this._dbContext = new PharmacyGoDbContext(this._options);
+            this._pharmacyRepository = new PharmacyRepository(this._dbContext);
+            this._sessionRepository = new SessionRepository(this._dbContext);
+            this._userRepository = new UsersRepository(this._dbContext);
+            this._productRepository = new ProductRepository(this._dbContext);
+            this._productManager = new ProductManager(this._pharmacyRepository, this._sessionRepository, this._userRepository, this._productRepository);
+            this._productController = new ProductController(this._productManager);
         }
 
 
@@ -43,35 +61,45 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
         [When("name (.*), description (.*) and price (.*) are updated")]
         public void WhenNameDescriptionAndPriceAreEnteredForTheUpdatedProduct(string name, string description, decimal price)
         {
-            this._product = new Product(name, description, price);
-            this._products.Add(this._product);
-            this._productSearch = new ProductSearchCriteria { PharmacyId = this._product.Id, Name = this._product.Name };
-            this._product.Pharmacy = new Pharmacy();
+            this._productSearch = new ProductSearchCriteria { PharmacyId = 1, Name = name };
             this._productModel = new UpdateProductModel() { Name = name, Description = description, Price = price };
         }
 
         [Then("update should be successful")]
         public void ThenUpdateShouldBeSuccessful()
         {
-            this._productManagerMock.Setup(x => x.Update(this._id, It.IsAny<Product>())).Returns(this._product);
             var result = this._productController.Update(this._id, this._productModel);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
+            if (result is ObjectResult actionResult)
+            {
+                this._productDetailModel = (ProductDetailModel)actionResult.Value;
+            }
 
-            this._productManagerMock.VerifyAll();
             statusCode.Should().Be(200);
         }
 
         [Then("available products list should contain the updated product")]
         public void ThenAvailableProductsListShouldContainTheUpdatedProduct()
         {
-            this._productManagerMock.Setup(x => x.GetAll(this._productSearch)).Returns(this._products);
             var result = this._productController.GetAll(this._productSearch);
             var objectResult = result as ObjectResult;
             var statusCode = objectResult.StatusCode;
+            if (result is ObjectResult actionResult)
+            {
+                IEnumerable<ProductBasicModel> products = (IEnumerable<ProductBasicModel>)actionResult.Value;
+                products.Any(this.AreEqual()).Should().BeTrue();
+            }
 
-            this._productManagerMock.VerifyAll();
             statusCode.Should().Be(200);
+        }
+
+        private Func<ProductBasicModel, bool> AreEqual()
+        {
+            return p => p.Id == this._productDetailModel.Id
+            && p.Name == this._productDetailModel.Name
+            && p.Description == this._productDetailModel.Description
+            && p.Price == this._productDetailModel.Price;
         }
 
         [Then(@"update is not successful")]
@@ -81,8 +109,6 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             try
             {
                 var result = this._productController.Update(this._id, this._productModel);
-                var objectResult = result as ObjectResult;
-                statusCode = (int)objectResult.StatusCode;
             }
             catch (InvalidResourceException)
             {
@@ -93,8 +119,6 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
                 statusCode = 400;
             }
 
-            this._productManagerMock.VerifyAll();
-
             statusCode.Should().Be(400);
         }
 
@@ -103,7 +127,6 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
         public void WhenInvalidNameDescriptionAndPriceAreEnteredForTheUpdatedProduct(string name, string description, decimal price)
         {
             this._productModel = new UpdateProductModel() { Name = name, Description = description, Price = price };
-            this._productManagerMock.Setup(x => x.Update(this._id, It.IsAny<Product>())).Throws(new InvalidResourceException("Invalid Product"));
         }
 
         [When(@"an existing product is selected")]
@@ -115,8 +138,8 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
         [When(@"an unexisting product is selected")]
         public void WhenAnUnexistingProductIsSelected()
         {
-            this._productModel = new UpdateProductModel();
-            this._productManagerMock.Setup(x => x.Update(this._id, It.IsAny<Product>())).Throws(new ResourceNotFoundException("Invalid Product"));
+            this._productModel = new UpdateProductModel() { Name = "name", Description = "description", Price = 10 };
+            this._id = -1;
         }
 
     }

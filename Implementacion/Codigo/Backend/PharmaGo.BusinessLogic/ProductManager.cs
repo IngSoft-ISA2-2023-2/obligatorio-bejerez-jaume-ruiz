@@ -8,7 +8,6 @@ namespace PharmaGo.BusinessLogic
 {
     public class ProductManager : IProductManager
     {
-        public int UserId { get; set; }
         private readonly IRepository<Pharmacy> _pharmacyRepository;
         private readonly IRepository<Session> _sessionRepository;
         private readonly IRepository<User> _userRepository;
@@ -144,7 +143,6 @@ namespace PharmaGo.BusinessLogic
 
         private void UpdateProductFields(Product updatedProduct, Product productSaved)
         {
-            productSaved.Code = updatedProduct.Code;
             productSaved.Name = updatedProduct.Name;
             productSaved.Description = updatedProduct.Description;
             productSaved.Price = updatedProduct.Price;
