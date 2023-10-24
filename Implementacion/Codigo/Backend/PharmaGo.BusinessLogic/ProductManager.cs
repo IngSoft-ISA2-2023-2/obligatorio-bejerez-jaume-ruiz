@@ -143,7 +143,6 @@ namespace PharmaGo.BusinessLogic
 
         private void UpdateProductFields(Product updatedProduct, Product productSaved)
         {
-            productSaved.Code = updatedProduct.Code;
             productSaved.Name = updatedProduct.Name;
             productSaved.Description = updatedProduct.Description;
             productSaved.Price = updatedProduct.Price;

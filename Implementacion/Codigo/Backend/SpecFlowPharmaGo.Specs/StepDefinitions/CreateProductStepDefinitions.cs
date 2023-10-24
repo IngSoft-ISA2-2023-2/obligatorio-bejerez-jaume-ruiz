@@ -79,7 +79,6 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             if (result is ObjectResult actionResult)
             {
                 this._productDetailModel = (ProductDetailModel)actionResult.Value;
-
             }
 
             statusCode.Should().Be(200);
@@ -96,6 +95,11 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
                 IEnumerable<ProductBasicModel> products = (IEnumerable<ProductBasicModel>)actionResult.Value;
                 products.Any(p => p.Id == this._productDetailModel.Id).Should().BeTrue();
             }
+
+            var productSaved = this._productRepository.GetOneByExpression(p => p.Id == this._productDetailModel.Id);
+            this._productRepository.DeleteOne(productSaved);
+            this._productRepository.Save();
+
             statusCode.Should().Be(200);
         }
 
@@ -106,8 +110,6 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             try
             {
                 var result = this._productController.Create(this._productModel);
-                var objectResult = result as ObjectResult;
-                statusCode = (int)objectResult.StatusCode;
             }
             catch (InvalidResourceException)
             {
