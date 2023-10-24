@@ -16,7 +16,7 @@ import { CommonService } from '../../../services/CommonService';
 export class DetailComponent implements OnInit {
   drug: Drug | undefined;
   quantity: number = 1;
-  cart: any[] = [];
+  cartD: Drug[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -41,14 +41,14 @@ export class DetailComponent implements OnInit {
 
   addToCart(drug: Drug) {
     if (drug) {
-      this.cart = JSON.parse(this.storageManager.getData('cart'));
-      if (!this.cart) {
-        this.cart = [];
-        this.storageManager.saveData('cart', JSON.stringify(this.cart));
+      this.cartD = JSON.parse(this.storageManager.getData('cartD'));
+      if (!this.cartD) {
+        this.cartD = [];
+        this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
       }
       
       let exist: boolean = false;
-      for (let item of this.cart) {
+      for (let item of this.cartD) {
         if (item.code === drug.code && item.id === drug.id){
           item.quantity += this.quantity;
           exist = true;
@@ -57,11 +57,11 @@ export class DetailComponent implements OnInit {
       }
       if (!exist){
         drug.quantity = this.quantity;
-        this.cart.push(drug);
+        this.cartD.push(drug);
       }
-      this.storageManager.saveData('cart', JSON.stringify(this.cart));
+      this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
     }
-    this.updateHeader(this.cart.length);
+    this.updateHeader(this.cartD.length);
     this.router.navigate(['/home/cart']);
   }
 

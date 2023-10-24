@@ -6,6 +6,8 @@ import { Drug, DrugRequest } from '../interfaces/drug';
 import { environment } from '../../environments/environment';
 import { CommonService } from './CommonService';
 import { StorageManager } from '../utils/storage-manager';
+import { Product, ProductRequest } from '../interfaces/product';
+
 
 @Injectable({ providedIn: 'root' })
 export class DrugService {

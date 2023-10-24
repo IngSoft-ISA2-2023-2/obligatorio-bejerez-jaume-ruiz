@@ -1,4 +1,5 @@
-﻿using PharmaGo.Domain.Entities;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PharmaGo.Domain.Entities;
 
 namespace PharmaGo.WebApi.Models.Out
 {
@@ -11,9 +12,10 @@ namespace PharmaGo.WebApi.Models.Out
         public int Quantity { get; set; }
         public int PharmacyId { get; set; }
         public string PharmacyName { get; set; }
-        public string DrugCode { get; set; }
-        public string DrugName { get; set; }
-        public PurchaseDetailModelResponse(int id, PurchaseDetail detail) {
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public PurchaseDetailModelResponse(int id, PurchaseDetail detail)
+        {
             PurchaseId = id;
             PurchaseDetailId = detail.Id;
             Status = detail.Status;
@@ -21,8 +23,32 @@ namespace PharmaGo.WebApi.Models.Out
             Quantity = detail.Quantity;
             PharmacyId = detail.Pharmacy.Id;
             PharmacyName = detail.Pharmacy.Name;
-            DrugCode = detail.Drug.Code;
-            DrugName = detail.Drug.Name;
+            ItemCode = this.GetItemCode(detail);
+            ItemName = this.GetItemName(detail);
+        }
+
+        private string? GetItemCode(PurchaseDetail detail)
+        {
+            if (detail.Drug != null)
+            {
+                return detail.Drug.Code;
+            }
+            else
+            {
+                return detail.Product?.Code;
+            }
+        }
+
+        private string? GetItemName(PurchaseDetail detail)
+        {
+            if (detail.Drug != null)
+            {
+                return detail.Drug.Name;
+            }
+            else
+            {
+                return detail.Product?.Name;
+            }
         }
     }
 }

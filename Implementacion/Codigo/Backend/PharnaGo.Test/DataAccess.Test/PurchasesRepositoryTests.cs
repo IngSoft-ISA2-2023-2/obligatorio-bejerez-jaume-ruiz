@@ -10,22 +10,22 @@ namespace PharmaGo.Test.DataAccess.Test
     [TestClass]
     public class PurchasesRepositoryTests
     {
-        private PurchasesRepository _purchasesRepository;
-        private Purchase purchase;
-        private Purchase purchase_2;
-        private Pharmacy pharmacy;
-        private Pharmacy pharmacy_2;
-        private ICollection<PurchaseDetail> purchaseDetail;
-        private ICollection<PurchaseDetail> purchaseDetail_2;
-        private Drug drug1;
-        private Drug drug2;
-        private Drug drug3;
-        private Drug drug4;
-        private UnitMeasure unitMeasure1;
-        private UnitMeasure unitMeasure2;
-        private Presentation presentation1;
-        private Presentation presentation2;
-        private PharmacyRepository pharmacyRepository;
+        private PurchasesRepository? _purchasesRepository;
+        private Purchase? purchase;
+        private Purchase? purchase_2;
+        private Pharmacy? pharmacy;
+        private Pharmacy? pharmacy_2;
+        private ICollection<PurchaseDetail>? purchaseDetail;
+        private ICollection<PurchaseDetail>? purchaseDetail_2;
+        private Drug? drug1;
+        private Drug? drug2;
+        private Drug? drug3;
+        private Drug? drug4;
+        private UnitMeasure? unitMeasure1;
+        private UnitMeasure? unitMeasure2;
+        private Presentation? presentation1;
+        private Presentation? presentation2;
+        private PharmacyRepository? pharmacyRepository;
         DbContextOptions<PharmacyGoDbContext> options = new DbContextOptionsBuilder<PharmacyGoDbContext>()
             .UseInMemoryDatabase(databaseName: "PharmaGoDb")
             .Options;

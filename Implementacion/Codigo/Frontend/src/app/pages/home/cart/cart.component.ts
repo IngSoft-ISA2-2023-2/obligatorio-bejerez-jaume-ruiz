@@ -5,6 +5,7 @@ import { Drug } from 'src/app/interfaces/drug';
 import { StorageManager } from '../../../utils/storage-manager';
 import { Router } from '@angular/router';
 import { CommonService } from '../../../services/CommonService';
+import { Product } from 'src/app/interfaces/product';
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +13,8 @@ import { CommonService } from '../../../services/CommonService';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cart: Drug[] = [];
+  cartD: Drug[] = [];
+  cartP: Product[] = [];
   total: number = 0;
 
   constructor(
@@ -24,27 +26,44 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cart = JSON.parse(this.storageManager.getData('cart'));
-    if (!this.cart) {
-      this.cart = [];
-      this.storageManager.saveData('cart', JSON.stringify(this.cart));
+    this.cartD = JSON.parse(this.storageManager.getData('cartD'));
+    if (!this.cartD) {
+      this.cartD = [];
+      this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
+    }
+    this.cartP = JSON.parse(this.storageManager.getData('cartP'));
+    if (!this.cartP) {
+      this.cartP = [];
+      this.storageManager.saveData('cartP', JSON.stringify(this.cartP));
     }
     this.storageManager.saveData('total', JSON.stringify(0));
     this.updateTotal();
   }
 
-  delete(index: number){
-    this.cart = JSON.parse(this.storageManager.getData('cart'));
-    this.cart.splice(index, 1);
-    this.storageManager.saveData('cart', JSON.stringify(this.cart));
+  deleteD(index: number){
+    this.cartD = JSON.parse(this.storageManager.getData('cartD'));
+    this.cartD.splice(index, 1);
+    this.storageManager.saveData('cartD', JSON.stringify(this.cartD));
     this.updateTotal();
-    this.updateHeader(this.cart.length);
+    this.updateHeader(this.cartD.length);
+  }
+
+  deleteP(index: number){
+    this.cartP = JSON.parse(this.storageManager.getData('cartP'));
+    this.cartP.splice(index, 1);
+    this.storageManager.saveData('cartP', JSON.stringify(this.cartP));
+    this.updateTotal();
+    this.updateHeader(this.cartP.length);
   }
 
   updateTotal(){
     this.total = 0;
-    this.cart = JSON.parse(this.storageManager.getData('cart'));
-    for(let item of this.cart){
+    this.cartD = JSON.parse(this.storageManager.getData('cartD'));
+    this.cartP = JSON.parse(this.storageManager.getData('cartP'));
+    for(let item of this.cartD){
+      this.total += (item.price * item.quantity);
+    }
+    for(let item of this.cartP){
       this.total += (item.price * item.quantity);
     }
   }

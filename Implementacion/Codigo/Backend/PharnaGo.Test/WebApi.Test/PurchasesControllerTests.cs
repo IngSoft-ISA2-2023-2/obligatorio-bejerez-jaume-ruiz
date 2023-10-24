@@ -15,21 +15,21 @@ namespace PharmaGo.Test.WebApi.Test
     [TestClass]
     public class PurchasesControllerTests
     {
-        private PurchasesController _purchasesController;
-        private Mock<IPurchasesManager> _purchasesManagerMock;
-        private PurchaseModelRequestToPurchaseConverter converter;
-        private PurchaseModelRequest purchaseModel;
-        private Purchase purchase;
-        private Purchase purchase_2;
-        private Pharmacy pharmacy;
-        private Pharmacy pharmacy2;
-        private ICollection<PurchaseDetail> purchaseDetail;
-        private Drug drug1;
-        private Drug drug2;
-        private UnitMeasure unitMeasure1;
-        private UnitMeasure unitMeasure2;
-        private Presentation presentation1;
-        private Presentation presentation2;
+        private PurchasesController? _purchasesController;
+        private Mock<IPurchasesManager>? _purchasesManagerMock;
+        private PurchaseModelRequestToPurchaseConverter? converter;
+        private PurchaseModelRequest? purchaseModel;
+        private Purchase? purchase;
+        private Purchase? purchase_2;
+        private Pharmacy? pharmacy;
+        private Pharmacy? pharmacy2;
+        private ICollection<PurchaseDetail>? purchaseDetail;
+        private Drug? drug1;
+        private Drug? drug2;
+        private UnitMeasure? unitMeasure1;
+        private UnitMeasure? unitMeasure2;
+        private Presentation? presentation1;
+        private Presentation? presentation2;
         string token = "f0c4ca1b-d7a8-4cf7-8eed-b6cfdce557cd";
 
         [TestInitialize]
@@ -49,12 +49,12 @@ namespace PharmaGo.Test.WebApi.Test
             };
             converter = new PurchaseModelRequestToPurchaseConverter();
 
-            
+
             ICollection<PurchaseModelRequest.PurchaseDetailModelRequest> purchaseModelDetailRequest =
                 new List<PurchaseModelRequest.PurchaseDetailModelRequest>
             {
-                new PurchaseModelRequest.PurchaseDetailModelRequest { Code = "XF324", Quantity = 2, PharmacyId = 1 },
-                new PurchaseModelRequest.PurchaseDetailModelRequest { Code = "RS546", Quantity = 1, PharmacyId = 2 }
+                new PurchaseModelRequest.PurchaseDetailModelRequest { DrugCode = "XF324", Quantity = 2, PharmacyId = 1 },
+                new PurchaseModelRequest.PurchaseDetailModelRequest { DrugCode = "RS546", Quantity = 1, PharmacyId = 2 }
             };
 
             purchaseModel = new PurchaseModelRequest()
@@ -66,7 +66,7 @@ namespace PharmaGo.Test.WebApi.Test
 
             unitMeasure1 = new UnitMeasure { Id = 1, Deleted = false, Name = "ml" };
             unitMeasure2 = new UnitMeasure { Id = 2, Deleted = false, Name = "mg" };
-            presentation1 = new Presentation { Id = 1, Deleted = false,  Name = "liquid" };
+            presentation1 = new Presentation { Id = 1, Deleted = false, Name = "liquid" };
             presentation2 = new Presentation { Id = 2, Deleted = false, Name = "capsules" };
 
             pharmacy = new Pharmacy { Id = 1, Name = "Farmacia 1", Address = "Av. Italia 12345", Users = new List<User>() };
@@ -245,7 +245,7 @@ namespace PharmaGo.Test.WebApi.Test
                 .Throws(new InvalidResourceException(invalidResourceException));
 
             //Act
-            var result = _purchasesController.ByDate(start, end);   
+            var result = _purchasesController.ByDate(start, end);
         }
 
 
@@ -274,7 +274,7 @@ namespace PharmaGo.Test.WebApi.Test
         public void Approve_Purchase_Detail_Ok()
         {
             //Arrange
-            var model = new PurchaseAuthorizationModel { drugCode = "XF324", pharmacyId = 1};
+            var model = new PurchaseAuthorizationModel { drugCode = "XF324", pharmacyId = 1 };
             purchaseDetail.ElementAt(0).Status = "Approved";
 
             _purchasesManagerMock
@@ -293,7 +293,7 @@ namespace PharmaGo.Test.WebApi.Test
             Assert.IsNotNull(value);
             Assert.AreEqual(200, statusCode);
             Assert.AreEqual(value.Status, "Approved");
-            Assert.AreEqual(value.DrugCode, model.drugCode);
+            Assert.AreEqual(value.ItemCode, model.drugCode);
             Assert.AreEqual(value.PharmacyId, model.pharmacyId);
         }
 
@@ -320,7 +320,7 @@ namespace PharmaGo.Test.WebApi.Test
             Assert.IsNotNull(value);
             Assert.AreEqual(200, statusCode);
             Assert.AreEqual(value.Status, "Rejected");
-            Assert.AreEqual(value.DrugCode, model.drugCode);
+            Assert.AreEqual(value.ItemCode, model.drugCode);
             Assert.AreEqual(value.PharmacyId, model.pharmacyId);
         }
 

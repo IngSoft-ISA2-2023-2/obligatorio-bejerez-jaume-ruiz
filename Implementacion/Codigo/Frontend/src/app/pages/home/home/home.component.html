@@ -1,15 +1,11 @@
 <c-header class="customBody">
-<app-custom-header [icons]="true" [select]="true" 
-  [search]="true" [ngStyle]="{ width: '100%' }"> 
-</app-custom-header>
+  <app-custom-header [icons]="true" [select]="true" [search]="true" [ngStyle]="{ width: '100%' }"></app-custom-header>
   <c-header-divider></c-header-divider>
   <c-container>
     <c-row>
       <c-col>
-        <c-card 
-        [cBorder]="{top: {color: 'info', width: 3}}" 
-        class="mb-3" 
-        *ngFor="let drug of drugs">
+        <h4>Drugs</h4> <!-- Título de la primera lista -->
+        <c-card [cBorder]="{top: {color: 'info', width: 3}}" class="mb-3" *ngFor="let drug of drugs">
           <c-row class="g-0">
             <c-col [md]="4">
               <img [cCardImg] src="assets/img/not_found.png" />
@@ -24,11 +20,35 @@
                 <b>Price:</b> {{ drug.price | currency}}
               </p>
               <div [ngStyle]="{ 'text-align': 'end' }">
-              <button cButton color="primary" [routerLink]="['/home/detail', drug.id]">
-                View Details
-                <svg cIcon name="cil-plus"></svg>
-              </button>
-            </div>
+                <button cButton color="primary" [routerLink]="['/home/detail', drug.id]">
+                  View Details
+                  <svg cIcon name="cil-plus"></svg>
+                </button>
+              </div>
+            </c-card-body>
+          </c-row>
+        </c-card>
+      </c-col>
+
+      <c-col>
+        <h4>Products</h4> <!-- Título de la segunda lista -->
+        <c-card [cBorder]="{top: {color: 'info', width: 3}}" class="mb-3" *ngFor="let product of products">
+          <c-row class="g-0">
+            <c-col [md]="4">
+              <img [cCardImg] src="assets/img/not_found.png" />
+            </c-col>
+            <c-card-body cCol [md]="8">
+              <h4 cCardTitle>{{ product.name }}</h4>
+              <p cCardText> 
+                <b>Description:</b> {{ product.description }} <br>
+                <b>Price:</b> {{ product.price | currency}}
+              </p>
+              <div [ngStyle]="{ 'text-align': 'end' }">
+                <button cButton color="primary" [routerLink]="['/home/detail-prod', product.id]">
+                  View Details
+                  <svg cIcon name="cil-plus"></svg>
+                </button>
+              </div>
             </c-card-body>
           </c-row>
         </c-card>

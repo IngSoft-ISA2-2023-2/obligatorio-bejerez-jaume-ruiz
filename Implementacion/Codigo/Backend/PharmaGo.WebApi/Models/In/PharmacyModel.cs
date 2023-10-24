@@ -4,8 +4,8 @@ namespace PharmaGo.WebApi.Models.In
 {
     public class PharmacyModel
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
+        public string? Name { get; set; }
+        public string? Address { get; set; }
 
         public Pharmacy ToEntity()
         {
@@ -14,7 +14,8 @@ namespace PharmaGo.WebApi.Models.In
                 Name = Name,
                 Address = Address,
                 Users = new List<User>(),
-                Drugs = new List<Drug>()
+                Drugs = new List<Drug>(),
+                Products = new List<Product>(),
             };
         }
     }
