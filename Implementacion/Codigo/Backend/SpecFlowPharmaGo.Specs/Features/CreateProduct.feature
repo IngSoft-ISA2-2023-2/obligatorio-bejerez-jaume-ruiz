@@ -3,7 +3,7 @@
 @mytag
 Scenario Outline: Create Product Successfully
 
-	Given the user logged with token Token123 is an employee
+	Given the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee
 	When name <name>, description <description> and price <price> are entered for the new product
 	Then creation should be successful
 	And available products list should contain the new product
@@ -17,7 +17,7 @@ Examples:
 @mytag
 Scenario Outline: Required fields are missing
 
-	Given the user logged with token Token123 is an employee
+	Given the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee
 	When <name>, <description> and <price> are entered
 	Then creation is not successful
 
@@ -30,7 +30,7 @@ Examples:
 @mytag
 Scenario Outline: Name has more than 30 characters
 
-	Given the user logged with token Token123 is an employee
+	Given the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee
 	When <name>, <description> and <price> are entered
 	Then creation is not successful
 
@@ -44,7 +44,7 @@ Examples:
 @mytag
 Scenario Outline: Description has more than 70 characters
 
-	Given the user logged with token Token123 is an employee
+	Given the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee
 	When <name>, <description> and <price> are entered
 	Then creation is not successful
 
@@ -57,7 +57,7 @@ Examples:
 @mytag
 Scenario Outline: Price is Less than or Equal to Zero
 
-	Given the user logged with token Token123 is an employee
+	Given the user logged with token e9e0e1e9-3812-4eb5-949e-ae92ac931401 is an employee
 	When <name>, <description> and <price> are entered
 	Then creation is not successful
 
