@@ -71,11 +71,12 @@ export class ProductService {
     );
   }
 
-  modifyProduct(targetItem: any, productRequest: ProductRequest) {
-    return this.http.put<ProductRequest>(targetItem,productRequest,{headers: this.getHttpHeaders() })
+  modifyProduct(targetItem: Product, productRequest: ProductRequest) {
+    const url = `${this.url}/${targetItem.id}`;
+    return this.http.put<ProductRequest>(url, productRequest, {headers: this.getHttpHeaders() })
     .pipe(
       tap(),
-      catchError(this.handleError<Product>('Create Product'))
+      catchError(this.handleError<Product>('Modify Product'))
     );
    }
 
