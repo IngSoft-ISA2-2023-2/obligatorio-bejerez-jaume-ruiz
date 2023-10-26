@@ -33,6 +33,8 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
         private readonly IRepository<Product> _productRepository;
         private readonly PharmacyGoDbContext _dbContext;
         private DbContextOptions<PharmacyGoDbContext> _options;
+        private int _unexistingId;
+        private int _invalidStatusCode;
 
         public CreateProductStepDefinitions()
         {
@@ -46,6 +48,7 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             this._userRepository = new UsersRepository(this._dbContext);
             this._productRepository = new ProductRepository(this._dbContext);
             this._productManager = new ProductManager(this._pharmacyRepository, this._sessionRepository, this._userRepository, this._productRepository);
+            this._productController = new ProductController(this._productManager);
         }
 
 
@@ -96,17 +99,13 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
                 products.Any(p => p.Id == this._productDetailModel.Id).Should().BeTrue();
             }
 
-            var productSaved = this._productRepository.GetOneByExpression(p => p.Id == this._productDetailModel.Id);
-            this._productRepository.DeleteOne(productSaved);
-            this._productRepository.Save();
-
             statusCode.Should().Be(200);
         }
 
         [Then(@"creation is not successful")]
         public void ThenCreationIsNotSuccessful()
         {
-            var statusCode = 400;
+            var statusCode = 200;
             try
             {
                 var result = this._productController.Create(this._productModel);
@@ -125,5 +124,67 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
         {
             this._productModel = new ProductModel() { Name = name, Description = description, Price = price, PharmacyName = "" };
         }
+
+        [Then(@"can be obtained by its id")]
+        public void ThenCanBeObtainedByItsId()
+        {
+            var result = this._productController.GetById(this._productDetailModel.Id);
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+            if (result is ObjectResult actionResult)
+            {
+                ProductDetailModel product = (ProductDetailModel)actionResult.Value;
+                product.Should().Equals(this._productDetailModel);
+            }
+
+            statusCode.Should().Be(200);
+        }
+
+        [Then(@"its contained in the pharmacy products list")]
+        public void ThenItsContainedInThePharmacyProductsList()
+        {
+            var result = this._productController.User();
+            var objectResult = result as ObjectResult;
+            var statusCode = objectResult.StatusCode;
+            if (result is ObjectResult actionResult)
+            {
+                IEnumerable<ProductBasicModel> products = (IEnumerable<ProductBasicModel>)actionResult.Value;
+                products.Any(p => p.Id == this._productDetailModel.Id).Should().BeTrue();
+            }
+
+            var productSaved = this._productRepository.GetOneByExpression(p => p.Id == this._productDetailModel.Id);
+            this._productRepository.DeleteOne(productSaved);
+            this._productRepository.Save();
+
+            statusCode.Should().Be(200);
+        }
+
+        [Given(@"that I select an unexisting product")]
+        public void GivenThatISelectAnUnexistingProduct()
+        {
+            this._unexistingId = -1;
+        }
+
+        [When(@"I want to get it")]
+        public void WhenIWantToGetIt()
+        {
+            this._invalidStatusCode = 200;
+            try
+            {
+                var result = this._productController.GetById(this._unexistingId);
+            }
+            catch (ResourceNotFoundException)
+            {
+                this._invalidStatusCode = 400;
+            }
+        }
+
+        [Then(@"an error is thrown")]
+        public void ThenAnErrorIsThrown()
+        {
+            this._invalidStatusCode.Should().Be(400);
+        }
+
+
     }
 }

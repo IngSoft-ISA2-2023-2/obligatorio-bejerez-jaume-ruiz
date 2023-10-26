@@ -7,6 +7,8 @@ Scenario Outline: Create Product Successfully
 	When name <name>, description <description> and price <price> are entered for the new product
 	Then creation should be successful
 	And available products list should contain the new product
+	And can be obtained by its id
+	And its contained in the pharmacy products list
 
 Examples:
 	| name                 | description                                    | price |
@@ -66,3 +68,10 @@ Examples:
 	| Loreal | desc        | 0      |
 	| Loreal | desc        | -1     |
 	| Loreal | desc        | -56465 |
+
+@mytag
+Scenario: Get unexisting product
+
+	Given that I select an unexisting product
+	When I want to get it
+	Then an error is thrown

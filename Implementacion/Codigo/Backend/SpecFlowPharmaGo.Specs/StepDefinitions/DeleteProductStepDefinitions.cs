@@ -120,6 +120,9 @@ namespace SpecFlowPharmaGo.Specs.StepDefinitions
             {
                 statusCode = 400;
             }
+            var productSaved = this._productRepository.GetOneByExpression(p => p.Id == this._product.Id);
+            this._productRepository.DeleteOne(productSaved);
+            this._productRepository.Save();
 
             statusCode.Should().Be(400);
         }
