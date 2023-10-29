@@ -44,10 +44,17 @@
     <Compile Update="Features\DeleteProduct.feature.cs">
       <DependentUpon>DeleteProduct.feature</DependentUpon>
     </Compile>
+    <Compile Update="Features\CreatePurchase.feature.cs">
+      <DependentUpon>CreatePurchase.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <SpecFlowFeatureFiles Update="Features\DeleteProduct.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\CreatePurchase.feature">
       <Visible>$(UsingMicrosoftNETSdk)</Visible>
       <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
     </SpecFlowFeatureFiles>
