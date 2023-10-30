@@ -12,12 +12,6 @@ namespace PharmaGo.Domain.Entities
         {
         }
 
-        public Product(string name, string description, decimal price)
-        {
-            this.Name = name;
-            this.Description = description;
-            this.Price = price;
-        }
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
